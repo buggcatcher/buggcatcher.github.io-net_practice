@@ -559,14 +559,7 @@
             word-break: break-all;
         }
         
-        /* Regole globali anti-overflow */
-        .rendered-content table {
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-            max-width: 100%;
-            margin: 15px 0;
-        }
+        /* Regole globali anti-overflow per tabelle rimossa - ora gestita nella regola principale */
         
         .rendered-content ul, 
         .rendered-content ol {
@@ -631,13 +624,18 @@
         }
 
         .rendered-content table {
-            width: auto;
+            width: fit-content;
+            min-width: auto;
+            max-width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
             border-radius: 8px;
             overflow: hidden;
+            overflow-x: auto;
             box-shadow: var(--shadow-light);
             border: 1px solid var(--border-color);
+            display: table;
+            background-color: var(--bg-secondary);
         }
 
         .rendered-content th,
@@ -645,6 +643,10 @@
             border: 1px solid var(--border-color);
             padding: 12px 16px;
             text-align: left;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 300px;
+            background-color: transparent;
         }
 
         .rendered-content th {
@@ -655,6 +657,22 @@
 
         .rendered-content td {
             color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .rendered-content table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                max-width: 100%;
+                width: auto;
+            }
+            
+            .rendered-content th,
+            .rendered-content td {
+                min-width: 120px;
+                max-width: none;
+            }
         }
 
         /* Stili per gli elenchi con trattini */
@@ -890,12 +908,7 @@
                 white-space: pre-wrap;
             }
             
-            .rendered-content table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-                max-width: 100%;
-            }
+            /* Tabelle responsive già gestite nella regola principale */
             
             .rendered-content img {
                 max-width: 100%;
@@ -961,16 +974,14 @@
     <div class="main-content">
         <div class="rendered-content">
             <br>
-     <h2 id="livello-1-teoria-fondamentale">Livello 1: Teoria Fondamentale</h2>
+     <h2 id="livello-1-teoria-fondamentale">Teoria Fondamentale</h2>
      <h3 id="1-what-is-an-ip-">Cos'è un indirizzo IP?</h3>
 <p>In <a href="https://it.wikipedia.org/wiki/Informatica" title="Informatica">informatica</a> e nelle <a href="https://it.wikipedia.org/wiki/Telecomunicazioni" title="Telecomunicazioni">telecomunicazioni</a>, un <strong>indirizzo IP</strong> è un numero che identifica univocamente un nodo in una <a href="https://it.wikipedia.org/wiki/Rete_di_computer" title="Rete di computer">rete di computer</a> che utilizza il <a href="https://it.wikipedia.org/wiki/Internet_Protocol" title="Internet Protocol">protocollo Internet</a> (IP). Il suo scopo è del tutto simile a quello di un indirizzo postale, che consente di trovare il percorso fino a una destinazione prescelta.</p>
-<p>L'indirizzo IP non è assegnato all'<a href="https://it.wikipedia.org/wiki/Host" title="Host">host</a> nel suo complesso, ma a ciascuna <a href="https://it.wikipedia.org/wiki/Interfaccia_(informatica)?wprov=sfti1" title="Interfaccia di rete">interfaccia di rete</a> che lo collega alla rete. Un <a href="https://it.wikipedia.org/wiki/Host" title="Host">host</a> può infatti disporre di più interfacce: ad esempio, un <a href="https://it.wikipedia.org/wiki/Router" title="Router">router</a> possiede almeno due interfacce (una verso la rete locale e una verso Internet), ognuna delle quali deve avere un proprio indirizzo IP.</p>
+<p>L'indirizzo IP non è assegnato all'<a href="https://it.wikipedia.org/wiki/Host" title="Host">host</a> nel suo complesso, ma a ciascuna <a href="https://it.wikipedia.org/wiki/Interfaccia_(informatica)?wprov=sfti1" title="Interfaccia di rete">interfaccia di rete</a> (o porta) che lo collega alla rete. Un host può infatti disporre di più interfacce: ad esempio, un <a href="https://it.wikipedia.org/wiki/Router" title="Router">router</a> possiede almeno due interfacce (una verso la rete locale e una verso Internet), ognuna delle quali deve avere un proprio indirizzo IP.</p>
 <p>Un <strong>indirizzo IP</strong> (Internet Protocol) è un identificativo numerico univoco assegnato a ogni dispositivo connesso a una rete che utilizza il protocollo IP per la comunicazione. Funziona come un &quot;indirizzo di casa&quot; digitale che permette l&#39;instradamento delle informazioni attraverso la rete.</p>
 <p><strong>Fondamento tecnico</strong>:</p>
 <ul>
 <li>Gli indirizzi IP sono rappresentazioni binarie (serie di 0 e 1)</li>
-<li>Per IPv4: 32 bit, solitamente rappresentati in formato decimale puntato (es. 192.168.1.1)</li>
-<li>Per IPv6: 128 bit, rappresentati in esadecimale (es. 2001:0db8:85a3::8a2e:0370:7334)</li>
 <li>Sono gerarchici, contenenti informazioni di rete e host</li>
 </ul>
 <h3 id="2-what-is-the-purpose-of-the-ip-addresses-">A cosa serve in indirizzo IP?</h3>
@@ -982,39 +993,40 @@
 <li><strong>Separazione logica</strong> delle reti attraverso il subnetting</li>
 </ul>
 <p>Senza indirizzi IP, Internet come la conosciamo non esisterebbe, poiché non ci sarebbe modo di determinare dove inviare i dati o da dove provengano.</p>
-<h3 id="3-what-are-the-types-of-an-ip-address">3. What are the types of an IP address</h3>
+<h3 id="3-what-are-the-types-of-an-ip-address">Quali sono i tipi di indirizzi IP?</h3>
 <p>L&#39;indirizzo IP si compone di due parti: indicatore di rete (Net_ID) e indicatore di host (Host_ID).</p>
 <ul>
 <li>La prima parte identifica la rete, chiamata <em>network</em> o <em>routing prefix</em> (Net_ID) ed è utilizzata per l&#39;<a href="https://it.wikipedia.org/wiki/Instradamento" title="Instradamento">instradamento</a> a livello di <a href="https://it.wikipedia.org/wiki/Sottorete" title="Sottorete">sottoreti</a>. Il NetID viene assegnato dall&#39;<a href="https://it.wikipedia.org/wiki/ICANN" title="ICANN">ICANN</a> che a sua volta delega organizzazioni regionali (Europa, Asia, ecc.) che a loro volta delegano altre organizzazioni (per l&#39;Italia <a href="https://it.wikipedia.org/wiki/GARR" title="GARR">GARR</a>).</li>
-<li>La seconda parte invece identifica, all&#39;interno della rete, l&#39;<a href="https://it.wikipedia.org/wiki/Host" title="Host">host</a> (o l&#39;interfaccia in <a href="https://it.wikipedia.org/wiki/IPv6" title="IPv6">IPv6</a>) e le eventuali sottoreti (Host_ID) ed è utilizzato per l&#39;instradamento a livello locale dell&#39;host una volta raggiunta la sottorete locale di destinazione, cui segue la traduzione o risoluzione in indirizzo MAC per l&#39;effettiva consegna del <a href="https://it.wikipedia.org/wiki/Pacchetto_(reti">pacchetto</a> &quot;Pacchetto (reti)&quot;) dati al destinatario con i protocolli della rete locale.</li>
+<li>La seconda parte invece identifica, all&#39;interno della rete, l&#39;<a href="https://it.wikipedia.org/wiki/Host" title="Host">host</a> (o l&#39;interfaccia in <a href="https://it.wikipedia.org/wiki/IPv6" title="IPv6">IPv6</a>) e le eventuali sottoreti (Host_ID) ed è utilizzato per l&#39;instradamento a livello locale dell&#39;host una volta raggiunta la sottorete locale di destinazione, cui segue la traduzione o risoluzione in indirizzo MAC per l&#39;effettiva consegna del <a href="https://it.wikipedia.org/wiki/Pacchetto_(reti)">pacchetto</a> dati al destinatario con i protocolli della rete locale.</li>
 </ul>
-<p>Con l&#39;introduzione del <a href="https://it.wikipedia.org/wiki/CIDR" title="CIDR">CIDR</a> è possibile creare sottoreti, a differenza del sistema a classi, che prevedeva il rispetto delle reti imposte con conseguente spreco di indirizzi IP.<a href="https://it.wikipedia.org/wiki/Indirizzo_IP#cite_note-2">[2]</a></p>
-<p>Con lo scopo di ridurre la necessità di indirizzi IP sono stati assegnati tre blocchi di indirizzi IP per le reti private, classe A, classe B e classe C. Se un&#39;organizzazione decide di utilizzare uno di questi IP, non ha bisogno di coordinarsi con ICANN o con qualsiasi altro registro Internet.</p>
+<p>Con l&#39;introduzione del <a href="https://it.wikipedia.org/wiki/CIDR" title="CIDR">CIDR</a> è possibile creare sottoreti, a differenza del sistema a classi, che prevedeva il rispetto delle reti imposte con conseguente spreco di indirizzi IP.</p>
+<p>Con lo scopo di ridurre la necessità di indirizzi IP sono stati assegnati tre blocchi di indirizzi IP per le reti private, classe A, classe B e classe C. Se un&#39;organizzazione decide di utilizzare uno di questi IP, non ha bisogno di coordinarsi con <a href="https://it.wikipedia.org/wiki/ICANN" title="ICANN">ICANN</a> o con qualsiasi altro registro Internet.</p>
 <p><strong>Classificazione principale</strong>:</p>
 <ol>
 <li><p><strong>Per versione protocollo</strong>:</p>
 <ul>
-<li>IPv4: formato da 4 ottetti (32 bit), notazione decimale (es. 192.168.1.1)</li>
-<li>IPv6: formato da 8 gruppi esadecimali (128 bit), notazione esadecimale (es. 2001:db8::1)</li>
+<li>IPv4: formato da 4 ottetti (32 bit), rappresentati in notazione decimale puntata (es. <code>192.168.1.1</code>)</li>
+<li>IPv6: formato da 8 gruppi esadecimali (128 bit), rappresentati in notazione esadecimale separata da due punti (es. <code>2001:0db8:85a3::8a2e:0370:7334</code>)</li>
 </ul>
 </li>
 <li><p><strong>Per ambito di utilizzo</strong>:</p>
 <ul>
 <li>Pubblico: Globamente univoco, routabile su Internet</li>
-<li>Privato: Riservato per reti locali (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)</li>
+<li>Privato: Riservato per reti locali come <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code></li>
 </ul>
 </li>
 <li><p><strong>Per metodo di assegnazione</strong>:</p>
 <ul>
-<li>Statico: Configurato manualmente, permanente</li>
-<li>Dinamico: Assegnato automaticamente da server DHCP</li>
+<li>Statico: configurato manualmente, rimane costante nel tempo.</li>
+<li>Dinamico: assegnato automaticamente da un server <a href="https://it.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol" title="DHCP">DHCP</a>, può cambiare nel tempo.</li>
 </ul>
 </li>
-<li><p><strong>Speciali</strong>:</p>
+<li><p><strong>Indirizzi speciali</strong>:</p>
 <ul>
-<li>Loopback (127.0.0.1 per IPv4, ::1 per IPv6)</li>
-<li>APIPA (169.254.0.0/16 per autoconfigurazione quando manca DHCP)</li>
-<li>Multicast e Broadcast</li>
+<li>Loopback: <code>127.0.0.1</code> (IPv4) o <code>::1</code> (IPv6), utilizzato per test locali sull'host stesso.</li>
+<li>APIPA/Link-local: <code>169.254.0.0/16</code> (IPv4) o <code>fe80::/10</code> (IPv6), assegnato automaticamente quando non è disponibile un server DHCP.</li>
+<li>Multicast: indirizzi per la comunicazione a gruppi di nodi (es. IPv4 <code>224.0.0.0/4</code>).</li>
+<li>Broadcast (solo IPv4): indirizzi per comunicazioni a tutti i nodi di una rete locale (es. <code>192.168.1.255</code>).</li>
 </ul>
 </li>
 </ol>
@@ -1022,18 +1034,15 @@
 <h3 id="ipv4">IPv4</h3>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Magnifying_glass_icon_mgx2.svg/20px-Magnifying_glass_icon_mgx2.svg.png" alt="" class="math-inverted"> Lo stesso argomento in dettaglio: <strong><a href="https://it.wikipedia.org/wiki/IPv4" title="IPv4">IPv4</a></strong>.</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Ipv4_address-it.svg/500px-Ipv4_address-it.svg.png" alt="" class="diagram-inverted"></a></p>
-<p>Un esempio di indirizzo IPv4</p>
 <p>L&#39;indirizzo IPv4 (Internet Protocol versione 4) è costituito da 32 <a href="https://it.wikipedia.org/wiki/Bit" title="Bit">bit</a> (4 <a href="https://it.wikipedia.org/wiki/Byte" title="Byte">byte</a>) suddivisi in quattro gruppi da 8 bit (1 byte), separati ciascuno da un punto (notazione <em>dotted</em>, es. <code>11001001.00100100.10101111.00001111</code>). Ciascuno di questi quattro byte è poi convertito in formato <a href="https://it.wikipedia.org/wiki/Sistema_numerico_decimale" title="Sistema numerico decimale">decimale</a> di più facile identificazione, che semplifica la lettura e la memorizzazione da parte di noi umani, (quindi ogni numero varia tra 0 e 255 essendo <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e8ce4c9b006679322bda6c0c82fe41a2907e19a7" alt="{\displaystyle 2^{8}=256}" class="math-inverted"> , ovvero le combinazioni disponibili ci dicono quanti numeri possiamo utilizzare in ogni gruppo identificato dal punto). Un esempio di indirizzo IPv4 è <code>172.16.254.1</code>, che corrisponde a una <a href="https://it.wikipedia.org/wiki/Sistema_numerico_binario" title="Sistema numerico binario">notazione binaria</a>.</p>
-<p>Nello standard IPv4, essendo costituito da 32 bit, le combinazioni utilizzabili sono <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/a8c222ea8e5f187a2bb499395b6f4a6f38b43633" alt="{\displaystyle 2^{32}}" class="math-inverted"> , pari a circa 4 miliardi. All&#39;inizio, nel 1981, sembravano tanti, tuttavia oggi sono pochi poiché se ognuno di noi ha diversi dispositivi connessi a internet, questi avranno degli indirizzi IP univoci. Basti pensare che molte persone posseggono uno smartphone, un computer e una <a href="https://it.wikipedia.org/wiki/Smart_TV" title="Smart TV">smart TV</a>, quindi tre indirizzi IP. Sono quindi state identificate delle soluzioni, per esempio separare degli &quot;indirizzi privati&quot; assegnati nelle <a href="https://it.wikipedia.org/wiki/LAN" title="LAN">LAN</a>, al cui interno sono identificati univocamente, ma il router ha un indirizzo pubblico, i rimanenti non sono visti dall&#39;esterno. Questa soluzione è generalmente utilizzata dalle imprese. L&#39;altra soluzione è passare a un nuovo standard: IPv6.</p>
+<p>Nello standard IPv4, essendo costituito da 32 bit, le combinazioni utilizzabili sono <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/a8c222ea8e5f187a2bb499395b6f4a6f38b43633" alt="{\displaystyle 2^{32}}" class="math-inverted"> , pari a circa 4 miliardi. All&#39;inizio, nel 1981, sembravano tanti, tuttavia oggi sono pochi poiché se ognuno di noi ha diversi dispositivi connessi a internet, questi avranno degli indirizzi IP univoci. Basti pensare che molte persone posseggono uno smartphone, un computer e una smart TV, quindi tre indirizzi IP. Sono quindi state identificate delle soluzioni, per esempio separare degli &quot;indirizzi privati&quot; assegnati nelle <a href="https://it.wikipedia.org/wiki/LAN" title="LAN">LAN</a>, al cui interno sono identificati univocamente, ma il router ha un indirizzo pubblico, i rimanenti non sono visti dall&#39;esterno. Questa soluzione è generalmente utilizzata dalle imprese. L&#39;altra soluzione è passare a un nuovo standard: IPv6.</p>
 <h3 id="ipv6">IPv6</h3>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Magnifying_glass_icon_mgx2.svg/20px-Magnifying_glass_icon_mgx2.svg.png" alt="" class="math-inverted"> Lo stesso argomento in dettaglio: <strong><a href="https://it.wikipedia.org/wiki/IPv6" title="IPv6">IPv6</a></strong>.</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Ipv6_address-it.svg/500px-Ipv6_address-it.svg.png" alt="" class="diagram-inverted"></a></p>
-<p>Un esempio di indirizzo IPv6</p>
-<p>L&#39;indirizzo IPv6 (Internet Protocol versione 6) è costituito da 128 bit (16 byte), viene descritto da 8 gruppi di 4 cifre <a href="https://it.wikipedia.org/wiki/Sistema_numerico_esadecimale" title="Sistema numerico esadecimale">esadecimali</a> che rappresentano 2 byte ciascuno (quindi ogni numero varia tra 0 e 65535) separati dal simbolo &quot;<a href="https://it.wikipedia.org/wiki/Due_punti" title="Due punti">due punti</a>&quot;. Un esempio di indirizzo IPv6 è <code>2001:0DB8:0000:0000:0000:0000:0000:0001</code>, che può essere abbreviato in <code>2001:DB8::1</code> (i due punti doppi rappresentano la parte dell&#39;indirizzo che è composta di soli zeri consecutivi. Si può usare una sola volta, per cui se un indirizzo ha due parti composte di zeri la più breve andrà scritta per esteso).</p>
+<p>L&#39;indirizzo IPv6 (Internet Protocol versione 6) è costituito da 128 bit (16 byte), viene descritto da 8 gruppi di 4 cifre <a href="https://it.wikipedia.org/wiki/Sistema_numerico_esadecimale" title="Sistema numerico esadecimale">esadecimali</a> che rappresentano 2 byte ciascuno (quindi ogni numero varia tra 0 e 65535) separati dai due punti. Un esempio di indirizzo IPv6 è <code>2001:0DB8:0000:0000:0000:0000:0000:0001</code>, che può essere abbreviato in <code>2001:DB8::1</code> (i due punti doppi rappresentano la parte dell&#39;indirizzo che è composta di soli zeri consecutivi. Si può usare una sola volta, per cui se un indirizzo ha due parti composte di zeri la più breve andrà scritta per esteso).</p>
 <p>I dispositivi connessi a una rete IPv6 ottengono un indirizzo di tipo unicast globale, vale a dire che i primi 48 bit del suo indirizzo sono assegnati alla rete a cui esso si connette, mentre i successivi 16 bit identificano le varie sottoreti a cui l&#39;host è connesso. Gli ultimi 64 bit sono ottenuti dall&#39;<a href="https://it.wikipedia.org/wiki/Indirizzo_MAC" title="Indirizzo MAC">indirizzo MAC</a> dell&#39;interfaccia fisica.</p>
-<p>Nello standard IPv6, essendo costituito da 128 bit, le combinazioni utilizzabili sono <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/759062fdace390ded4a751eeff7689d2883995cd" alt="{\displaystyle 2^{128}}" class="math-inverted"> , per un totale di 3,4×10<sup>38</sup> indirizzi, pari a circa 7×10<sup>23</sup> indirizzi IP per ogni <a href="https://it.wikipedia.org/wiki/Metro_quadrato" title="Metro quadrato">metro quadrato</a> di superficie terrestre. A oggi ipotizziamo sufficiente, anche se non si è ancora passati totalmente all&#39;IPv6.</p>
-<h3 id="4-what-is-the-difference-between-the-ipv4-and-the-ipv6-">4. What is the difference between the IPv4 and the IPv6?</h3>
-<p><strong>Confronto tecnico dettagliato</strong>:</p>
+<p>Fun fact: Lo standard IPv6, essendo costituito da 128 bit, le combinazioni utilizzabili sono <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/759062fdace390ded4a751eeff7689d2883995cd" alt="{\displaystyle 2^{128}}" class="math-inverted"> , per un totale di 3,4×10<sup>38</sup> indirizzi, pari a circa 7×10<sup>23</sup> indirizzi IP per ogni <a href="https://it.wikipedia.org/wiki/Metro_quadrato" title="Metro quadrato">metro quadrato</a> di superficie terrestre. A oggi ipotizziamo sufficiente, anche se non si è ancora passati totalmente all&#39;IPv6.</p>
+<h3 id="4-what-is-the-difference-between-the-ipv4-and-the-ipv6-">Differenze tra i due protocolli</h3>
 <table>
 <thead>
 <tr>
@@ -1070,25 +1079,25 @@
 </tr>
 <tr>
 <td><strong>Sicurezza</strong></td>
-<td>IPSec opzionale</td>
+<td><a href="https://it.wikipedia.org/wiki/IPsec" title="IPsec">IPSec</a> opzionale</td>
 <td>IPSec integrato</td>
 </tr>
 <tr>
 <td><strong>Configurazione</strong></td>
 <td>Manuale o DHCP</td>
-<td>Autoconfigurazione (SLAAC) + DHCPv6 opzionale</td>
+<td>Autoconfigurazione (SLAAC) + <a href="https://en.wikipedia.org/wiki/DHCPv6" title="DHCPv6">DHCPv6</a> opzionale</td>
 </tr>
 <tr>
 <td><strong>Sotto-rete</strong></td>
-<td>Subnet mask (255.255.255.0)</td>
-<td>Prefix notation (/64)</td>
+<td><a href="https://it.wikipedia.org/wiki/Maschera_di_sottorete" title="Subnet mask">Subnet mask</a> (255.255.255.0)</td>
+<td>Prefix notation (<a href="https://it.wikipedia.org/wiki/Base64" title="/64">/64</a>)</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Vantaggi IPv6</strong>:</p>
 <ul>
-<li>Elimina la necessità del NAT</li>
-<li>Migliore supporto per QoS</li>
+<li>Elimina la necessità del <a href="https://it.wikipedia.org/wiki/Network_address_translation" title="Network Address Translation">NAT</a> (Network Address Translation)</li>
+<li>Migliore supporto per <a href="https://it.wikipedia.org/wiki/Qualit%C3%A0_del_servizio" title="Quality of Service">QoS</a></li>
 <li>Header più efficiente</li>
 <li>Autoconfigurazione avanzata</li>
 <li>Maggiore sicurezza nativa</li>
@@ -1207,7 +1216,7 @@
 <ul>
 <li>Instradamento pacchetti tra reti diverse</li>
 <li>Implementazione di protocolli di routing (RIP, OSPF, BGP)</li>
-<li>NAT (Network Address Translation) per traduzione indirizzi privati/pubblici</li>
+<li><a href="https://it.wikipedia.org/wiki/Network_address_translation" title="Network Address Translation">NAT (Network Address Translation)</a> per traduzione indirizzi privati/pubblici</li>
 <li>Funzionalità firewall e filtro pacchetti</li>
 <li>DHCP server per assegnazione indirizzi</li>
 </ul>
