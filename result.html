@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Network Fundamentals</title>
+    <!-- Highlight.js per syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+    <style>
+        /* Obsidian Dark Theme CSS with Interactive Features */
+        /* Import Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* CSS Custom Properties (Variables) */
+        :root {
+            /* Main Colors - Obsidian Authentic Palette */
+            --bg-primary: #171b2b;           /* Sfondo principale editor */
+            --bg-secondary: #1d2131;         /* Sfondo secondario sidebar - PIÙ CHIARO */
+            --bg-tertiary: #2C303F;          /* Pannelli/evidenziazioni */
+            
+            /* Text Colors */
+            --text-primary: #CDD0E2;         /* Testo principale */
+            --text-secondary: #A9ADCE;       /* Testo secondario */
+            --text-accent: #5081BF;        /* Link/evidenziazioni - BLU */
+            --text-highlight: #a1f800;       /* Punti elenco/accenti - VERDE */
+            
+            /* Accent Colors */
+            --accent-orange: #E95420;        /* Notifiche/warning */
+            --accent-blue: #5081BF;          /* Link attivi */
+            --accent-green: #4CAF50;         /* Success states */
+            
+            /* Interface Colors */
+            --border-color: #434343;         /* Bordi */
+            --border-light: #272727;         /* Bordi leggeri */
+            --surface-dark: #181818;         /* Superfici molto scure */
+            
+            /* Interactive States */
+            --hover-bg: rgba(41, 42, 54, 0.6);
+            --active-bg: rgba(63, 132, 223, 0.15);
+            --selected-bg: rgba(41, 117, 183, 0.2);
+            
+            /* Shadows */
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-heavy: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --shadow-focus: 0 0 0 2px rgba(80, 129, 191, 0.3);
+            
+            /* Typography */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            --font-size-base: 16px;
+            --font-size-small: 14px;
+            --font-size-tiny: 12px;
+            --font-size-large: 18px;
+            --font-size-xlarge: 24px;
+            --line-height: 1.6;
+            
+            /* Transitions */
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+            
+            /* Layout */
+            --sidebar-width: 320px;
+            --sidebar-collapsed-width: 60px;
+            --header-height: 60px;
+        }
+
+        /* Light Theme Variables */
+        :root[data-theme="light"] {
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F9FA;
+            --bg-tertiary: #E9ECEF;
+            
+            --text-primary: #212529;
+            --text-secondary: #6C757D;
+            --text-accent: #0066CC;
+            --text-highlight: #28A745;
+            
+            --border-color: #DEE2E6;
+            --border-light: #E9ECEF;
+            --surface-dark: #F8F9FA;
+            
+            --hover-bg: rgba(0, 0, 0, 0.05);
+            --active-bg: rgba(0, 102, 204, 0.1);
+            --selected-bg: rgba(0, 102, 204, 0.15);
+            
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 4px 20px rgba(0, 0, 0, 0.15);
+            --shadow-focus: 0 0 0 2px rgba(0, 102, 204, 0.3);
+        }
+
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            overflow-x: hidden !important;
+            width: 100%;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: var(--font-size-base);
+            line-height: var(--line-height);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden !important;
+            display: flex;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        /* Regola universale anti-overflow */
+        * {
+            box-sizing: border-box !important;
+            margin: 0;
+            padding: 0;
+            max-width: 100% !important;
+            overflow-wrap: break-word !important;
+            word-wrap: break-word !important;
+        }
+
+        /* Regole globali anti-overflow per contenuto */
+        html, body, div, p, span, h1, h2, h3, h4, h5, h6, a, strong, em, ul, ol, li, table, tr, td, th {
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+            word-wrap: break-word !important;
+        }
+
+        /* Assicura che niente possa uscire dal viewport */
+        body, html {
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            left: 0;
+            top: 0;
+            border-right: 1px solid var(--border-color);
+            transition: all var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .sidebar-header h2 {
+            color: var(--text-accent);
+            font-size: 1.4em;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            color: var(--text-secondary);
+            font-size: var(--font-size-small);
+        }
+
+        .sidebar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .reading-time {
+            color: var(--text-secondary);
+            font-size: var(--font-size-tiny);
+        }
+
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-primary);
+            padding: 4px 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .theme-toggle:hover {
+            background: var(--hover-bg);
+            border-color: var(--text-accent);
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            right: 20px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+        }
+
+        .sidebar-footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: var(--font-size-tiny);
+            transition: color var(--transition-fast);
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--text-accent);
+        }
+
+        .sidebar-toc {
+            list-style: none;
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 60px; /* Spazio per il footer */
+        }
+
+        .sidebar-toc-item {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-toc-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: block;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: all var(--transition-fast);
+            font-size: var(--font-size-small);
+        }
+
+        .sidebar-toc-link.h2 {
+            font-weight: 600;
+            color: var(--text-accent);
+            margin-top: 15px;
+        }
+
+        .sidebar-toc-link.h3 {
+            font-weight: 500;
+            padding-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        .sidebar-toc-link:hover {
+            background-color: var(--hover-bg);
+            color: var(--text-accent);
+        }
+
+        .sidebar-toc-link.active {
+            background-color: var(--selected-bg);
+            color: var(--text-accent);
+            border-left: 3px solid var(--text-accent);
+            padding-left: 7px; /* Compensa il bordo */
+            font-weight: 600;
+        }
+
+        .sidebar-toc-link.h3.active {
+            padding-left: 17px; /* 20px originale - 3px bordo */
+        }
+
+        /* Stili per la sidebar collassabile */
+        .sidebar-toc-section {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-toc-header {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar-toc-header:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .sidebar-toc-toggle {
+            margin-right: 8px;
+            font-size: 12px;
+            transition: transform var(--transition-fast);
+            color: var(--text-secondary);
+            width: 12px;
+        }
+
+        .sidebar-toc-toggle.expanded {
+            transform: rotate(90deg);
+        }
+
+        .sidebar-toc-title {
+            flex: 1;
+            color: var(--text-accent);
+            font-weight: 600;
+            font-size: var(--font-size-small);
+            text-decoration: none;
+        }
+
+        .sidebar-toc-title.active {
+            color: var(--text-accent);
+            border-left: 3px solid var(--text-accent);
+            padding-left: 7px;
+            margin-left: -10px;
+            background-color: var(--selected-bg);
+        }
+
+        .sidebar-toc-subsections {
+            margin-left: 20px;
+            margin-top: 5px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-normal) ease;
+        }
+
+        .sidebar-toc-subsections.expanded {
+            max-height: 500px;
+        }
+
+        .sidebar-toc-subsection {
+            margin-bottom: 4px;
+        }
+
+        /* Stili per la sidebar collassabile */
+        .sidebar-toc-section {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-toc-header {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .sidebar-toc-toggle {
+            margin-right: 8px;
+            font-size: 12px;
+            transition: transform var(--transition-fast);
+            color: var(--text-secondary);
+        }
+
+        .sidebar-toc-toggle.expanded {
+            transform: rotate(90deg);
+        }
+
+        .sidebar-toc-subsections {
+            margin-left: 20px;
+            margin-top: 5px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-normal) ease;
+        }
+
+        .sidebar-toc-subsections.expanded {
+            max-height: 500px; /* Valore abbastanza alto per contenere tutti i sottotitoli */
+        }
+
+        .sidebar-toc-subsection {
+            margin-bottom: 4px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            max-width: calc(100vw - var(--sidebar-width));
+            min-width: 0; /* Importante per flex items */
+            overflow-x: hidden !important;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            width: calc(100vw - var(--sidebar-width));
+        }
+
+        /* Rendered HTML Content Styles */
+        .rendered-content {
+            max-width: 100% !important;
+            overflow-wrap: break-word !important;
+            word-wrap: break-word !important;
+            hyphens: auto;
+            overflow-x: hidden !important;
+            width: 100%;
+        }
+        
+        .rendered-content * {
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-wrap: break-word !important;
+            word-wrap: break-word !important;
+            word-break: break-word !important;
+        }
+        
+        .rendered-content p,
+        .rendered-content div,
+        .rendered-content span,
+        .rendered-content a {
+            overflow-wrap: break-word !important;
+            word-wrap: break-word !important;
+            word-break: break-word !important;
+            hyphens: auto !important;
+        }
+        
+        .rendered-content a {
+            word-break: break-all !important;
+        }
+        
+        .rendered-content h1,
+        .rendered-content h2,
+        .rendered-content h3,
+        .rendered-content h4,
+        .rendered-content h5,
+        .rendered-content h6 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            line-height: 1.3;
+            scroll-margin-top: 20px;
+            overflow-wrap: break-word !important;
+            word-wrap: break-word !important;
+            word-break: break-word !important;
+        }
+
+        .rendered-content h1 { 
+            font-size: 2em; 
+            border-bottom: 2px solid var(--border-color); 
+            padding-bottom: 0.3em; 
+        }
+        
+        .rendered-content h2 { 
+            font-size: 1.6em; 
+            border-bottom: 1px solid var(--border-color); 
+            padding-bottom: 0.3em; 
+        }
+        
+        .rendered-content h3 { 
+            font-size: 1.3em; 
+        }
+
+        .rendered-content p {
+            color: var(--text-primary);
+            margin-bottom: 1em;
+            line-height: 1.7;
+        }
+
+        .rendered-content a {
+            color: var(--text-accent);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(81, 93, 255, 0.3);
+            transition: all var(--transition-fast);
+        }
+
+        .rendered-content a:hover {
+            color: #6B9FE8;
+            border-bottom-color: #6B9FE8;
+            background-color: rgba(81, 93, 255, 0.1);
+            padding: 2px 4px;
+            margin: -2px -4px;
+            border-radius: 4px;
+        }
+
+        .rendered-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: var(--shadow-light);
+            margin: 15px 0;
+        }
+
+        /* Sfondo per immagini PNG trasparenti nel tema chiaro */
+        :root[data-theme="light"] .rendered-content img {
+            background-color: #fafbfc;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Mantieni trasparenza nel tema scuro */
+        :root[data-theme="dark"] .rendered-content img {
+            background-color: #A9ADCE; 
+            border: 1px solid var(--border-color);
+        }
+
+        /* Immagini matematiche invertite - senza sfondo e colore personalizzato */
+        .rendered-content img.math-inverted {
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            vertical-align: middle;
+            height: 1.3em;
+            width: auto;
+            margin: 0 2px;
+        }
+
+        /* Diagrammi PNG invertiti - mantengono dimensioni originali */
+        .rendered-content img.diagram-inverted {
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+        }
+
+        /* Nel tema scuro, usa il colore personalizzato più chiaro per entrambe */
+        :root[data-theme="dark"] .rendered-content img.math-inverted,
+        :root[data-theme="dark"] .rendered-content img.diagram-inverted {
+            filter: brightness(0) saturate(100%) invert(78%) sepia(12%) saturate(800%) hue-rotate(191deg) brightness(110%) contrast(92%);
+        }
+
+        .rendered-content code {
+            background-color: var(--bg-tertiary);
+            color: var(--text-highlight); /* VERDE */
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            font-size: 13px;
+            border: 1px solid var(--border-light);
+            overflow-wrap: break-word;
+            word-break: break-all;
+        }
+
+        .rendered-content pre {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: var(--shadow-light);
+            max-width: 100%;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .rendered-content pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-highlight); /* VERDE */
+            border: none;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        /* Regole globali anti-overflow */
+        .rendered-content table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+            max-width: 100%;
+            margin: 15px 0;
+        }
+        
+        .rendered-content ul, 
+        .rendered-content ol {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+        
+        .rendered-content li {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        /* Custom syntax highlighting per tema scuro/chiaro */
+        :root[data-theme="dark"] .hljs {
+            background: var(--bg-tertiary) !important;
+            color: var(--text-primary) !important;
+        }
+
+        :root[data-theme="light"] .hljs {
+            background: #f8f8f8 !important;
+            color: #333 !important;
+        }
+
+        /* Personalizzazione colori syntax highlighting */
+        .hljs-comment { color: #6c757d !important; }
+        .hljs-string { color: #28a745 !important; }
+        .hljs-variable { color: #e83e8c !important; }
+        .hljs-keyword, .hljs-built_in { color: #007bff !important; }
+        .hljs-meta { color: #6610f2 !important; }
+        .hljs-number { color: #fd7e14 !important; }
+        .hljs-literal { color: #20c997 !important; }
+
+        .rendered-content blockquote {
+            border-left: 4px solid var(--text-accent);
+            margin: 20px 0;
+            padding-left: 20px;
+            color: var(--text-secondary);
+            font-style: italic;
+            background-color: rgba(81, 93, 255, 0.05);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .rendered-content ul,
+        .rendered-content ol {
+            color: var(--text-primary);
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+
+        .rendered-content li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .rendered-content ul li::marker {
+            color: var(--text-highlight); /* VERDE */
+        }
+
+        .rendered-content ol li::marker {
+            color: var(--text-highlight); /* VERDE */
+        }
+
+        .rendered-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+        }
+
+        .rendered-content th,
+        .rendered-content td {
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .rendered-content th {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .rendered-content td {
+            color: var(--text-secondary);
+        }
+
+        /* Stili per gli elenchi con trattini */
+        .rendered-content .bullet-list {
+            list-style-type: none;
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+
+        .rendered-content .bullet-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .rendered-content .bullet-list li:before {
+            content: "•";
+            color: var(--text-highlight);
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        /* Stili per gli elenchi numerati */
+        .rendered-content .numbered-list {
+            list-style-type: none;
+            padding-left: 20px;
+            margin: 15px 0;
+            counter-reset: numbered-item;
+        }
+
+        .rendered-content .numbered-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            counter-increment: numbered-item;
+        }
+
+        .rendered-content .numbered-list li:before {
+            content: counter(numbered-item) ". ";
+            color: var(--text-highlight);
+            position: absolute;
+            left: 0;
+            font-weight: 600;
+        }
+
+        /* Scrollbar Styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: var(--bg-secondary);
+        }
+
+        /* Selection Styles */
+        ::selection {
+            background-color: rgba(81, 93, 255, 0.3);
+            color: var(--text-primary);
+        }
+
+        /* Versione desktop forzata - rimuoviamo le media queries responsive */
+        /* Manteniamo sempre la sidebar aperta e il layout desktop */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            left: 0;
+            top: 0;
+            border-right: 1px solid var(--border-color);
+            transition: all var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        /* Responsive minimo solo per schermi molto piccoli */
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 20px;
+                font-size: 14px;
+            }
+            
+            .sidebar {
+                font-size: 13px;
+            }
+            
+            .sidebar-header h2 {
+                font-size: 1.2em;
+            }
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1001;
+                position: fixed;
+                height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .sidebar.sidebar-open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px 15px;
+                width: 100vw !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                box-sizing: border-box !important;
+            }
+            
+            .rendered-content {
+                max-width: calc(100vw - 30px) !important;
+                overflow-x: hidden !important;
+                word-break: break-word !important;
+                overflow-wrap: break-word !important;
+            }
+            
+            .rendered-content *,
+            .rendered-content p,
+            .rendered-content div,
+            .rendered-content span,
+            .rendered-content a,
+            .rendered-content strong,
+            .rendered-content em {
+                max-width: 100% !important;
+                word-break: break-word !important;
+                overflow-wrap: break-word !important;
+                word-wrap: break-word !important;
+                hyphens: auto !important;
+            }
+            
+            .mobile-menu-btn {
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1000;
+                background: var(--bg-tertiary);
+                border: 1px solid var(--border-color);
+                color: var(--text-primary);
+                padding: 12px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 18px;
+                box-shadow: var(--shadow-light);
+                display: none;
+                width: 48px;
+                height: 48px;
+            }
+            
+            .mobile-menu-btn svg {
+                width: 24px;
+                height: 24px;
+                fill: #a1f800;
+            }
+            
+            .mobile-menu-btn:hover {
+                background: var(--hover-bg);
+            }
+            
+            .mobile-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                display: none;
+            }
+            
+            .mobile-overlay.active {
+                display: block;
+            }
+            
+            .rendered-content h1,
+            .rendered-content h2,
+            .rendered-content h3 {
+                font-size: 1.5em;
+            }
+            
+            .rendered-content {
+                line-height: 1.6;
+                max-width: 100%;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+                hyphens: auto;
+            }
+            
+            .rendered-content * {
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .rendered-content pre {
+                overflow-x: auto;
+                white-space: pre-wrap;
+                word-break: break-all;
+                max-width: calc(100vw - 30px);
+            }
+            
+            .rendered-content code {
+                word-break: break-all;
+                white-space: pre-wrap;
+            }
+            
+            .rendered-content table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                max-width: 100%;
+            }
+            
+            .rendered-content img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        /* Touch-friendly per mobile */
+        @media (pointer: coarse) {
+            .sidebar-toc-header,
+            .sidebar-toc-link,
+            .theme-toggle,
+            .mobile-menu-btn {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            
+            .theme-toggle {
+                min-width: 44px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pulsante menu mobile -->
+    <button class="mobile-menu-btn" id="mobile-menu-btn" title="Apri menu">
+        <svg viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M372.288 745.792a394.048 394.048 0 0 0 113.728 102.848v-127.744a390.08 390.08 0 0 0-113.728 24.896z m-51.584 24.192a392.96 392.96 0 0 0-60.16 41.6h-1.28a390.336 390.336 0 0 0 205.696 89.6 450.24 450.24 0 0 1-144.256-131.2z m-24.704-230.016c3.968 56.768 20.096 110.208 45.696 157.696a445.696 445.696 0 0 1 144.32-32.896v-124.8h-190.08z m-56.128 0H120.96a390.4 390.4 0 0 0 98.56 233.024c22.208-19.2 46.272-36.224 71.808-50.752a445.312 445.312 0 0 1-51.456-182.272z m445.824 158.784c25.984-47.808 42.24-101.568 46.336-158.72H540.992v124.864c51.072 3.2 99.776 14.976 144.704 33.92z m50.24 24.96c24.448 14.08 47.552 30.464 68.928 48.896a390.4 390.4 0 0 0 98.176-232.576h-114.88a445.312 445.312 0 0 1-52.224 183.68z m-194.944 125.44a394.048 394.048 0 0 0 113.92-102.4 389.888 389.888 0 0 0-113.92-25.728v128.192z m23.104 51.392a390.4 390.4 0 0 0 200.704-88.96h-0.512a392.96 392.96 0 0 0-57.92-40.32 450.24 450.24 0 0 1-142.272 129.28zM341.76 326.144a389.632 389.632 0 0 0-45.76 157.824h190.016V358.976a445.696 445.696 0 0 1-144.256-32.768z m-50.368-24.576a449.216 449.216 0 0 1-71.808-50.56 390.4 390.4 0 0 0-98.56 232.96h118.848a445.312 445.312 0 0 1 51.52-182.4z m194.56-126.208A394.048 394.048 0 0 0 372.48 278.016a390.08 390.08 0 0 0 113.536 24.768V175.36z m-20.992-52.544a390.272 390.272 0 0 0-205.312 89.152h0.512c18.88 15.872 39.168 29.888 60.608 41.92a450.24 450.24 0 0 1 144.192-131.072z m189.76 154.048a394.048 394.048 0 0 0-113.728-102.08v127.808a389.952 389.952 0 0 0 113.728-25.728z m51.392-24.576a392.96 392.96 0 0 0 57.856-40.32h0.384A390.336 390.336 0 0 0 564.16 123.52a450.24 450.24 0 0 1 141.952 128.832z m25.92 231.68a389.632 389.632 0 0 0-46.528-159.168 445.568 445.568 0 0 1-144.512 33.92v125.248h191.04z m56.128 0h114.88a390.4 390.4 0 0 0-98.56-232.96 449.28 449.28 0 0 1-68.736 48.896c29.824 55.424 48.32 117.76 52.416 184.128zM512 960A448 448 0 1 1 512 64a448 448 0 0 1 0 896z" fill="#a1f800"></path>
+        </svg>
+    </button>
+    
+    <!-- Overlay per chiudere la sidebar su mobile -->
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Network Fundamentals</h2>
+            <div class="sidebar-controls">
+                <span class="reading-time" id="reading-time">⏱ 0 min lettura</span>
+                <button class="theme-toggle" id="theme-toggle" title="Cambia tema">🌙</button>
+            </div>
+        </div>
+        <nav class="sidebar-toc" id="sidebar-toc">
+            <!-- La sidebar sarà popolata dinamicamente con JavaScript -->
+        </nav>
+        <div class="sidebar-footer">
+            <a href="https://github.com/buggcatcher" target="_blank">github.com/buggcatcher</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="rendered-content">
+            <br>
+     <h2 id="livello-1-teoria-fondamentale">Livello 1: Teoria Fondamentale</h2>
+<p>In <a href="https://it.wikipedia.org/wiki/Informatica" title="Informatica">informatica</a> e nelle <a href="https://it.wikipedia.org/wiki/Telecomunicazioni" title="Telecomunicazioni">telecomunicazioni</a>, un <strong>indirizzo IP</strong> è un numero che identifica univocamente un <a href="https://it.wikipedia.org/wiki/Nodo_(telecomunicazioni">nodo</a> &quot;Nodo (telecomunicazioni)&quot;) in una <a href="https://it.wikipedia.org/wiki/Rete_di_computer" title="Rete di computer">rete di computer</a> che utilizza il <a href="https://it.wikipedia.org/wiki/Internet_Protocol" title="Internet Protocol">protocollo Internet</a> (IP). Il suo scopo è del tutto simile a quello di un <a href="https://it.wikipedia.org/wiki/Indirizzo_postale" title="Indirizzo postale">indirizzo postale</a>, che consente di trovare il percorso fino a una destinazione prescelta.<a href="https://it.wikipedia.org/wiki/Indirizzo_IP#cite_note-1">[1]</a></p>
+<p>Viene assegnato a un&#39;<a href="https://it.wikipedia.org/wiki/Interfaccia_(informatica">interfaccia</a> &quot;Interfaccia (informatica)&quot;) che identifica l&#39;<a href="https://it.wikipedia.org/wiki/Host" title="Host">host</a> di rete, che può essere un <a href="https://it.wikipedia.org/wiki/Personal_computer" title="Personal computer">personal computer</a>, un <a href="https://it.wikipedia.org/wiki/Palmare" title="Palmare">palmare</a>, uno <em><a href="https://it.wikipedia.org/wiki/Smartphone" title="Smartphone">smartphone</a></em>, un <em><a href="https://it.wikipedia.org/wiki/Router" title="Router">router</a></em>, o anche un <a href="https://it.wikipedia.org/wiki/Elettrodomestico" title="Elettrodomestico">elettrodomestico</a>. Va considerato, infatti, che un <em>host</em> può contenere più di una interfaccia: per esempio un router ha diverse interfacce (minimo due) per ognuna delle quali occorre un indirizzo IP del modem.</p>
+<h3 id="1-what-is-an-ip-">1. What is an IP?</h3>
+<p>Un <strong>indirizzo IP</strong> (Internet Protocol) è un identificativo numerico univoco assegnato a ogni dispositivo connesso a una rete che utilizza il protocollo IP per la comunicazione. Funziona come un &quot;indirizzo di casa&quot; digitale che permette l&#39;instradamento delle informazioni attraverso la rete.</p>
+<p><strong>Fondamento tecnico</strong>:</p>
+<ul>
+<li>Gli indirizzi IP sono rappresentazioni binarie (serie di 0 e 1)</li>
+<li>Per IPv4: 32 bit, solitamente rappresentati in formato decimale puntato (es. 192.168.1.1)</li>
+<li>Per IPv6: 128 bit, rappresentati in esadecimale (es. 2001:0db8:85a3::8a2e:0370:7334)</li>
+<li>Sono gerarchici, contenenti informazioni di rete e host</li>
+</ul>
+<h3 id="2-what-is-the-purpose-of-the-ip-addresses-">2. What is the purpose of the IP addresses?</h3>
+<p>Lo scopo principale degli indirizzi IP è consentire:</p>
+<ul>
+<li><strong>Comunicazione bidirezionale</strong> tra dispositivi</li>
+<li><strong>Identificazione univoca</strong> dei dispositivi in una rete</li>
+<li><strong>Instradamento</strong> dei pacchetti di dati dalla sorgente alla destinazione</li>
+<li><strong>Separazione logica</strong> delle reti attraverso il subnetting</li>
+</ul>
+<p>Senza indirizzi IP, Internet come la conosciamo non esisterebbe, poiché non ci sarebbe modo di determinare dove inviare i dati o da dove provengano.</p>
+<h3 id="3-what-are-the-types-of-an-ip-address">3. What are the types of an IP address</h3>
+<p>L&#39;indirizzo IP si compone di due parti: indicatore di rete (Net_ID) e indicatore di host (Host_ID).</p>
+<ul>
+<li>La prima parte identifica la rete, chiamata <em>network</em> o <em>routing prefix</em> (Net_ID) ed è utilizzata per l&#39;<a href="https://it.wikipedia.org/wiki/Instradamento" title="Instradamento">instradamento</a> a livello di <a href="https://it.wikipedia.org/wiki/Sottorete" title="Sottorete">sottoreti</a>. Il NetID viene assegnato dall&#39;<a href="https://it.wikipedia.org/wiki/ICANN" title="ICANN">ICANN</a> che a sua volta delega organizzazioni regionali (Europa, Asia, ecc.) che a loro volta delegano altre organizzazioni (per l&#39;Italia <a href="https://it.wikipedia.org/wiki/GARR" title="GARR">GARR</a>).</li>
+<li>La seconda parte invece identifica, all&#39;interno della rete, l&#39;<a href="https://it.wikipedia.org/wiki/Host" title="Host">host</a> (o l&#39;interfaccia in <a href="https://it.wikipedia.org/wiki/IPv6" title="IPv6">IPv6</a>) e le eventuali sottoreti (Host_ID) ed è utilizzato per l&#39;instradamento a livello locale dell&#39;host una volta raggiunta la sottorete locale di destinazione, cui segue la traduzione o risoluzione in indirizzo MAC per l&#39;effettiva consegna del <a href="https://it.wikipedia.org/wiki/Pacchetto_(reti">pacchetto</a> &quot;Pacchetto (reti)&quot;) dati al destinatario con i protocolli della rete locale.</li>
+</ul>
+<p>Con l&#39;introduzione del <a href="https://it.wikipedia.org/wiki/CIDR" title="CIDR">CIDR</a> è possibile creare sottoreti, a differenza del sistema a classi, che prevedeva il rispetto delle reti imposte con conseguente spreco di indirizzi IP.<a href="https://it.wikipedia.org/wiki/Indirizzo_IP#cite_note-2">[2]</a></p>
+<p>Con lo scopo di ridurre la necessità di indirizzi IP sono stati assegnati tre blocchi di indirizzi IP per le reti private, classe A, classe B e classe C. Se un&#39;organizzazione decide di utilizzare uno di questi IP, non ha bisogno di coordinarsi con ICANN o con qualsiasi altro registro Internet.</p>
+<p><strong>Classificazione principale</strong>:</p>
+<ol>
+<li><p><strong>Per versione protocollo</strong>:</p>
+<ul>
+<li>IPv4: formato da 4 ottetti (32 bit), notazione decimale (es. 192.168.1.1)</li>
+<li>IPv6: formato da 8 gruppi esadecimali (128 bit), notazione esadecimale (es. 2001:db8::1)</li>
+</ul>
+</li>
+<li><p><strong>Per ambito di utilizzo</strong>:</p>
+<ul>
+<li>Pubblico: Globamente univoco, routabile su Internet</li>
+<li>Privato: Riservato per reti locali (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)</li>
+</ul>
+</li>
+<li><p><strong>Per metodo di assegnazione</strong>:</p>
+<ul>
+<li>Statico: Configurato manualmente, permanente</li>
+<li>Dinamico: Assegnato automaticamente da server DHCP</li>
+</ul>
+</li>
+<li><p><strong>Speciali</strong>:</p>
+<ul>
+<li>Loopback (127.0.0.1 per IPv4, ::1 per IPv6)</li>
+<li>APIPA (169.254.0.0/16 per autoconfigurazione quando manca DHCP)</li>
+<li>Multicast e Broadcast</li>
+</ul>
+</li>
+</ol>
+<h2 id="composizione-e-formati">Composizione e formati</h2>
+<h3 id="ipv4">IPv4</h3>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Magnifying_glass_icon_mgx2.svg/20px-Magnifying_glass_icon_mgx2.svg.png" alt="" class="math-inverted"> Lo stesso argomento in dettaglio: <strong><a href="https://it.wikipedia.org/wiki/IPv4" title="IPv4">IPv4</a></strong>.</p>
+<p><a href="https://it.wikipedia.org/wiki/File:Ipv4_address-it.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Ipv4_address-it.svg/500px-Ipv4_address-it.svg.png" alt="" class="diagram-inverted"></a></p>
+<p>Un esempio di indirizzo IPv4</p>
+<p>L&#39;indirizzo IPv4 (Internet Protocol versione 4) è costituito da 32 <a href="https://it.wikipedia.org/wiki/Bit" title="Bit">bit</a> (4 <a href="https://it.wikipedia.org/wiki/Byte" title="Byte">byte</a>) suddivisi in quattro gruppi da 8 bit (1 byte), separati ciascuno da un punto (notazione <em>dotted</em>, es. <code>11001001.00100100.10101111.00001111</code>). Ciascuno di questi quattro byte è poi convertito in formato <a href="https://it.wikipedia.org/wiki/Sistema_numerico_decimale" title="Sistema numerico decimale">decimale</a> di più facile identificazione, che semplifica la lettura e la memorizzazione da parte di noi umani, (quindi ogni numero varia tra 0 e 255 essendo <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e8ce4c9b006679322bda6c0c82fe41a2907e19a7" alt="{\displaystyle 2^{8}=256}" class="math-inverted"> , ovvero le combinazioni disponibili ci dicono quanti numeri possiamo utilizzare in ogni gruppo identificato dal punto). Un esempio di indirizzo IPv4 è <code>172.16.254.1</code>, che corrisponde a una <a href="https://it.wikipedia.org/wiki/Sistema_numerico_binario" title="Sistema numerico binario">notazione binaria</a>.</p>
+<p>Nello standard IPv4, essendo costituito da 32 bit, le combinazioni utilizzabili sono <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/a8c222ea8e5f187a2bb499395b6f4a6f38b43633" alt="{\displaystyle 2^{32}}" class="math-inverted"> , pari a circa 4 miliardi. All&#39;inizio, nel 1981, sembravano tanti, tuttavia oggi sono pochi poiché se ognuno di noi ha diversi dispositivi connessi a internet, questi avranno degli indirizzi IP univoci. Basti pensare che molte persone posseggono uno smartphone, un computer e una <a href="https://it.wikipedia.org/wiki/Smart_TV" title="Smart TV">smart TV</a>, quindi tre indirizzi IP. Sono quindi state identificate delle soluzioni, per esempio separare degli &quot;indirizzi privati&quot; assegnati nelle <a href="https://it.wikipedia.org/wiki/LAN" title="LAN">LAN</a>, al cui interno sono identificati univocamente, ma il router ha un indirizzo pubblico, i rimanenti non sono visti dall&#39;esterno. Questa soluzione è generalmente utilizzata dalle imprese. L&#39;altra soluzione è passare a un nuovo standard: IPv6.</p>
+<h3 id="ipv6">IPv6</h3>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Magnifying_glass_icon_mgx2.svg/20px-Magnifying_glass_icon_mgx2.svg.png" alt="" class="math-inverted"> Lo stesso argomento in dettaglio: <strong><a href="https://it.wikipedia.org/wiki/IPv6" title="IPv6">IPv6</a></strong>.</p>
+<p><a href="https://it.wikipedia.org/wiki/File:Ipv6_address-it.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Ipv6_address-it.svg/500px-Ipv6_address-it.svg.png" alt="" class="diagram-inverted"></a></p>
+<p>Un esempio di indirizzo IPv6</p>
+<p>L&#39;indirizzo IPv6 (Internet Protocol versione 6) è costituito da 128 bit (16 byte), viene descritto da 8 gruppi di 4 cifre <a href="https://it.wikipedia.org/wiki/Sistema_numerico_esadecimale" title="Sistema numerico esadecimale">esadecimali</a> che rappresentano 2 byte ciascuno (quindi ogni numero varia tra 0 e 65535) separati dal simbolo &quot;<a href="https://it.wikipedia.org/wiki/Due_punti" title="Due punti">due punti</a>&quot;. Un esempio di indirizzo IPv6 è <code>2001:0DB8:0000:0000:0000:0000:0000:0001</code>, che può essere abbreviato in <code>2001:DB8::1</code> (i due punti doppi rappresentano la parte dell&#39;indirizzo che è composta di soli zeri consecutivi. Si può usare una sola volta, per cui se un indirizzo ha due parti composte di zeri la più breve andrà scritta per esteso).</p>
+<p>I dispositivi connessi a una rete IPv6 ottengono un indirizzo di tipo unicast globale, vale a dire che i primi 48 bit del suo indirizzo sono assegnati alla rete a cui esso si connette, mentre i successivi 16 bit identificano le varie sottoreti a cui l&#39;host è connesso. Gli ultimi 64 bit sono ottenuti dall&#39;<a href="https://it.wikipedia.org/wiki/Indirizzo_MAC" title="Indirizzo MAC">indirizzo MAC</a> dell&#39;interfaccia fisica.</p>
+<p>Nello standard IPv6, essendo costituito da 128 bit, le combinazioni utilizzabili sono <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/759062fdace390ded4a751eeff7689d2883995cd" alt="{\displaystyle 2^{128}}" class="math-inverted"> , per un totale di 3,4×10<sup>38</sup> indirizzi, pari a circa 7×10<sup>23</sup> indirizzi IP per ogni <a href="https://it.wikipedia.org/wiki/Metro_quadrato" title="Metro quadrato">metro quadrato</a> di superficie terrestre. A oggi ipotizziamo sufficiente, anche se non si è ancora passati totalmente all&#39;IPv6.</p>
+<h3 id="4-what-is-the-difference-between-the-ipv4-and-the-ipv6-">4. What is the difference between the IPv4 and the IPv6?</h3>
+<p><strong>Confronto tecnico dettagliato</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Caratteristica</th>
+<th>IPv4</th>
+<th>IPv6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Lunghezza indirizzo</strong></td>
+<td>32 bit</td>
+<td>128 bit</td>
+</tr>
+<tr>
+<td><strong>Spazio indirizzi</strong></td>
+<td>~4.3 miliardi</td>
+<td>3.4×10^38 (praticamente illimitato)</td>
+</tr>
+<tr>
+<td><strong>Notazione</strong></td>
+<td>Decimale puntata (192.168.1.1)</td>
+<td>Esadecimale con due punti (2001:db8::1)</td>
+</tr>
+<tr>
+<td><strong>Header</strong></td>
+<td>Complesso (20-60 byte)</td>
+<td>Semplificato (40 byte fissi)</td>
+</tr>
+<tr>
+<td><strong>NAT</strong></td>
+<td>Necessario per conservazione indirizzi</td>
+<td>Non necessario (end-to-end connectivity)</td>
+</tr>
+<tr>
+<td><strong>Sicurezza</strong></td>
+<td>IPSec opzionale</td>
+<td>IPSec integrato</td>
+</tr>
+<tr>
+<td><strong>Configurazione</strong></td>
+<td>Manuale o DHCP</td>
+<td>Autoconfigurazione (SLAAC) + DHCPv6 opzionale</td>
+</tr>
+<tr>
+<td><strong>Sotto-rete</strong></td>
+<td>Subnet mask (255.255.255.0)</td>
+<td>Prefix notation (/64)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Vantaggi IPv6</strong>:</p>
+<ul>
+<li>Elimina la necessità del NAT</li>
+<li>Migliore supporto per QoS</li>
+<li>Header più efficiente</li>
+<li>Autoconfigurazione avanzata</li>
+<li>Maggiore sicurezza nativa</li>
+</ul>
+<h3 id="5-what-is-the-difference-between-static-and-dynamic-address-">5. What is the difference between static and dynamic address?</h3>
+<p><strong>Indirizzi statici</strong>:</p>
+<ul>
+<li>Configurati manualmente sulle impostazioni di rete del dispositivo</li>
+<li>Rimangono costanti nel tempo</li>
+<li>Ideali per: server, stampanti di rete, dispositivi di accesso remoto</li>
+<li>Vantaggi: Stabilità, accessibilità costante</li>
+<li>Svantaggi: Gestione manuale, possibile conflitto se mal configurati</li>
+</ul>
+<p><strong>Indirizzi dinamici</strong>:</p>
+<ul>
+<li>Assegnati automaticamente da un server DHCP (Dynamic Host Configuration Protocol)</li>
+<li>Hanno una &quot;durata&quot; (lease) dopo la quale possono cambiare</li>
+<li>Ideali per: dispositivi client (laptop, smartphone, tablet)</li>
+<li>Vantaggi: Gestione automatica, utilizzo efficiente degli indirizzi</li>
+<li>Svantaggi: Possibili cambiamenti, meno adatti per servizi sempre raggiungibili</li>
+</ul>
+<p><strong>Processo DHCP</strong>:</p>
+<ol>
+<li>Discover: Il client invia una richiesta in broadcast</li>
+<li>Offer: Il server DHCP propone un indirizzo</li>
+<li>Request: Il client accetta l&#39;offerta</li>
+<li>Acknowledge: Il server conferma e assegna l&#39;indirizzo</li>
+</ol>
+<h2 id="livello-2-protocolli-di-comunicazione-tcp-ip-">Livello 2: Protocolli di Comunicazione (TCP/IP)</h2>
+<h3 id="6-what-is-tcp-ip-">6. What is TCP/IP?</h3>
+<p><strong>TCP/IP</strong> è una suite di protocolli che costituisce il fondamento di Internet e della maggior parte delle reti moderne. Il nome deriva dai suoi due protocolli principali: Transmission Control Protocol (TCP) e Internet Protocol (IP).</p>
+<p><strong>Architettura a strati (modello TCP/IP)</strong>:</p>
+<ol>
+<li><strong>Application Layer</strong> (HTTP, FTP, SSH, DNS, SMTP)</li>
+<li><strong>Transport Layer</strong> (TCP, UDP)</li>
+<li><strong>Internet Layer</strong> (IP, ICMP, ARP)</li>
+<li><strong>Network Access Layer</strong> (Ethernet, Wi-Fi, PPP)</li>
+</ol>
+<p><strong>Funzionamento della suite</strong>:</p>
+<ul>
+<li>Ogni strato aggiunge informazioni di controllo (header) ai dati</li>
+<li>I protocolli lavorano in concerto per garantire comunicazioni affidabili</li>
+<li>Supporta diverse topologie di rete e mezzi fisici</li>
+</ul>
+<h3 id="7-what-is-the-difference-between-tcp-and-ip-">7. What is the difference between TCP and IP?</h3>
+<p><strong>IP (Internet Protocol)</strong>:</p>
+<ul>
+<li>Opera a livello di rete (Internet Layer)</li>
+<li>Responsabile dell&#39;indirizzamento e dell&#39;instradamento dei pacchetti</li>
+<li>Servizio &quot;best-effort&quot; senza garanzie di consegna</li>
+<li>Non orientato alla connessione (connectionless)</li>
+<li>Gestisce la frammentazione e riassemblaggio dei pacchetti</li>
+</ul>
+<p><strong>TCP (Transmission Control Protocol)</strong>:</p>
+<ul>
+<li>Opera a livello di trasporto (Transport Layer)</li>
+<li>Fornisce comunicazione affidabile e orientata alla connessione</li>
+<li>Gestisce il controllo di flusso, la ritrasmissione e l&#39;ordinamento dei pacchetti</li>
+<li>Stabilisce sessioni attraverso il three-way handshake</li>
+<li>Utilizza numeri di sequenza e acknowledgement</li>
+</ul>
+<p><strong>In sintesi</strong>: IP si preoccupa di &quot;dove&quot; consegnare i pacchetti, mentre TCP si preoccupa di &quot;come&quot; consegnarli in modo affidabile.</p>
+<h3 id="8-how-does-tcp-ip-exactly-work-">8. How does TCP/IP exactly work?</h3>
+<p><strong>Processo di incapsulamento</strong>:</p>
+<ol>
+<li><strong>Application Layer</strong>: I dati dell&#39;applicazione (es. richiesta HTTP) vengono passati al livello di trasporto</li>
+<li><strong>Transport Layer (TCP)</strong>:<ul>
+<li>Divide i dati in segmenti</li>
+<li>Aggiunge header TCP (porte, sequence number, checksum)</li>
+<li>Gestisce la connessione con three-way handshake</li>
+</ul>
+</li>
+<li><strong>Internet Layer (IP)</strong>:<ul>
+<li>Aggiunge header IP (indirizzi IP sorgente/destinazione)</li>
+<li>Determina il percorso (routing)</li>
+</ul>
+</li>
+<li><strong>Network Access Layer</strong>:<ul>
+<li>Incapsula i pacchetti in frame</li>
+<li>Aggiunge indirizzi MAC</li>
+<li>Trasmette sul mezzo fisico</li>
+</ul>
+</li>
+</ol>
+<p><strong>Three-way handshake TCP</strong>:</p>
+<ol>
+<li>SYN: Il client invia un segmento con flag SYN=1</li>
+<li>SYN-ACK: Il server risponde con SYN=1 e ACK=1</li>
+<li>ACK: Il client conferma con ACK=1</li>
+</ol>
+<p><strong>Controllo di flusso e congestione</strong>:</p>
+<ul>
+<li>Window size: Definisce quanti dati possono essere inviati senza acknowledgement</li>
+<li>Slow start: Aumenta gradualmente la finestra di congestione</li>
+<li>Retransmission timeout: Ritrasmette i dati non confermati</li>
+</ul>
+<h2 id="livello-3-dispositivi-di-rete-e-infrastruttura">Livello 3: Dispositivi di Rete e Infrastruttura</h2>
+<h3 id="9-what-is-a-switch-">9. What is a switch?</h3>
+<p>Uno <strong>switch</strong> è un dispositivo di rete di livello 2 (Data Link Layer) che collega dispositivi all&#39;interno della stessa rete locale (LAN).</p>
+<p><strong>Funzionamento</strong>:</p>
+<ul>
+<li>Utilizza indirizzi MAC per inoltrare i frame alla porta corretta</li>
+<li>Apprende automaticamente la posizione dei dispositivi costruendo una MAC address table</li>
+<li>Opera in modalità full-duplex, permettendo comunicazioni simultanee</li>
+<li>Riduce il dominio di collisione (ogni porta è un dominio di collisione separato)</li>
+</ul>
+<p><strong>Tipi di switch</strong>:</p>
+<ul>
+<li>Unmanaged: Configurazione base plug-and-play</li>
+<li>Managed: Configurabile, supporta VLAN, QoS, monitoring</li>
+<li>Layer 3 switch: Combina funzionalità di switch e router base</li>
+</ul>
+<h3 id="10-what-is-a-router-">10. What is a router?</h3>
+<p>Un <strong>router</strong> è un dispositivo di livello 3 (Network Layer) che collega reti diverse e instrada pacchetti tra di esse.</p>
+<p><strong>Funzioni principali</strong>:</p>
+<ul>
+<li>Instradamento pacchetti tra reti diverse</li>
+<li>Implementazione di protocolli di routing (RIP, OSPF, BGP)</li>
+<li>NAT (Network Address Translation) per traduzione indirizzi privati/pubblici</li>
+<li>Funzionalità firewall e filtro pacchetti</li>
+<li>DHCP server per assegnazione indirizzi</li>
+</ul>
+<h3 id="11-how-does-a-router-work-">11. How does a router work?</h3>
+<p><strong>Processo di routing</strong>:</p>
+<ol>
+<li><strong>Ricezione pacchetto</strong>: Il router riceve un pacchetto su una delle sue interfacce</li>
+<li><strong>Decapsulamento</strong>: Rimuove l&#39;header di livello 2 per accedere all&#39;header IP</li>
+<li><strong>Verifica destinazione</strong>: Controlla l&#39;indirizzo IP di destinazione</li>
+<li><strong>Consulta tabella di routing</strong>: Cerca il percorso migliore verso la rete di destinazione</li>
+<li><strong>Decisione di instradamento</strong>:<ul>
+<li>Se la destinazione è in rete direttamente connessa: inoltra direttamente</li>
+<li>Se conosce il percorso: inoltra al next-hop router</li>
+<li>Se non conosce il percorso: scarta il pacchetto o invia ICMP error</li>
+</ul>
+</li>
+<li><strong>Incapsulamento</strong>: Aggiunge un nuovo header di livello 2 appropriato per l&#39;interfaccia di uscita</li>
+</ol>
+<p><strong>Tabella di routing</strong>:</p>
+<ul>
+<li>Contiene reti conosciute e come raggiungerle</li>
+<li>Le voci possono essere:<ul>
+<li>Direttamente connesse</li>
+<li>Statiche (configurate manualmente)</li>
+<li>Dinamiche (apprese tramite protocolli di routing)</li>
+</ul>
+</li>
+</ul>
+<h3 id="12-what-is-the-difference-between-a-modem-and-a-router-">12. What is the difference between a Modem and a Router?</h3>
+<p><strong>Modem (Modulator-Demodulator)</strong>:</p>
+<ul>
+<li>Converte segnali digitali in analogici e viceversa</li>
+<li>Collega la rete domestica alla rete del provider Internet</li>
+<li>Opera al livello fisico (Physical Layer)</li>
+<li>Tipicamente ha una sola porta Ethernet</li>
+<li>Esempi: modem DSL, modem cable</li>
+</ul>
+<p><strong>Router</strong>:</p>
+<ul>
+<li>Instrada pacchetti tra reti diverse</li>
+<li>Fornisce funzionalità di NAT, firewall, DHCP</li>
+<li>Opera al livello di rete (Network Layer)</li>
+<li>Multiple porte Ethernet per collegare dispositivi locali</li>
+</ul>
+<p><strong>Dispositivi combinati</strong>: Molti dispositivi consumer sono &quot;router-modem&quot; che combinano entrambe le funzionalità.</p>
+<h2 id="livello-4-concetti-avanzati-di-indirizzamento">Livello 4: Concetti Avanzati di Indirizzamento</h2>
+<h3 id="13-what-is-a-loopback-address-">13. What is a loopback address?</h3>
+<p>L&#39;<strong>indirizzo di loopback</strong> è un indirizzo speciale che un dispositivo utilizza per comunicare con se stesso, bypassando l&#39;interfaccia di rete fisica.</p>
+<p><strong>IPv4</strong>: 127.0.0.1 (localhost)
+<strong>IPv6</strong>: ::1</p>
+<p><strong>Utilizzi principali</strong>:</p>
+<ul>
+<li>Test e sviluppo di applicazioni di rete</li>
+<li>Diagnostica e troubleshooting</li>
+<li>Accesso a servizi locali senza esporli alla rete</li>
+<li>Isolamento di servizi per motivi di sicurezza</li>
+</ul>
+<h3 id="14-what-is-a-subnet-">14. What is a subnet?</h3>
+<p>Una <strong>subnet</strong> (sottorete) è una divisione logica di una rete IP in segmenti più piccoli.</p>
+<p><strong>Vantaggi del subnetting</strong>:</p>
+<ul>
+<li>Migliore gestione e organizzazione della rete</li>
+<li>Riduzione del traffico broadcast</li>
+<li>Maggiore sicurezza attraverso l&#39;isolamento</li>
+<li>Ottimizzazione dell&#39;utilizzo degli indirizzi IP</li>
+</ul>
+<p><strong>Concetti chiave</strong>:</p>
+<ul>
+<li>Subnet mask: Definisce quale parte dell&#39;indirizzo identifica la rete e quale l&#39;host</li>
+<li>CIDR notation: Rappresentazione compatta (es. 192.168.1.0/24)</li>
+<li>Network address: Il primo indirizzo della subnet</li>
+<li>Broadcast address: L&#39;ultimo indirizzo della subnet</li>
+</ul>
+<h3 id="15-how-to-calculate-a-subnet-mask-from-ip-address-step-by-step-">15. How to calculate a subnet mask from IP address step by step?</h3>
+<p><strong>Esempio pratico</strong>: Creare 4 subnet dalla rete 192.168.1.0/24</p>
+<p><strong>Passo 1: Determinare il numero di bit necessari</strong></p>
+<ul>
+<li>Per 4 subnet: 2^2 = 4 → servono 2 bit in prestito</li>
+<li>Nuova subnet mask: /26 (24+2) o 255.255.255.192</li>
+</ul>
+<p><strong>Passo 2: Calcolare l&#39;incremento</strong></p>
+<ul>
+<li>256 - 192 = 64 → l&#39;incremento tra le subnet è 64</li>
+</ul>
+<p><strong>Passo 3: Definire le subnet</strong></p>
+<ul>
+<li>Subnet 1: 192.168.1.0/26 (host: 192.168.1.1 - 192.168.1.62)</li>
+<li>Subnet 2: 192.168.1.64/26 (host: 192.168.1.65 - 192.168.1.126)</li>
+<li>Subnet 3: 192.168.1.128/26 (host: 192.168.1.129 - 192.168.1.190)</li>
+<li>Subnet 4: 192.168.1.192/26 (host: 192.168.1.193 - 192.168.1.254)</li>
+</ul>
+<p><strong>Passo 4: Identificare network e broadcast address</strong></p>
+<ul>
+<li>Per subnet 1: Network=192.168.1.0, Broadcast=192.168.1.63</li>
+<li>Per subnet 2: Network=192.168.1.64, Broadcast=192.168.1.127</li>
+</ul>
+<h2 id="livello-5-servizi-di-rete-e-dns">Livello 5: Servizi di Rete e DNS</h2>
+<h3 id="16-how-does-it-work-a-ddns-">16. How does it work a DDNS?</h3>
+<p>Il <strong>Dynamic DNS</strong> (DDNS) è un servizio che aggiorna automaticamente i record DNS quando l&#39;IP pubblico di un dispositivo cambia, tipicamente per utenti con IP dinamico.</p>
+<p><strong>Funzionamento</strong>:</p>
+<ol>
+<li>Registrazione con un servizio DDNS (es. No-IP, DuckDNS, Cloudflare)</li>
+<li>Installazione di un client DDNS sul dispositivo (router o computer)</li>
+<li>Il client monitora l&#39;IP pubblico e lo invia al servizio quando cambia</li>
+<li>Il servizio aggiorna il record DNS con il nuovo IP</li>
+</ol>
+<p><strong>Utilizzi comuni</strong>:</p>
+<ul>
+<li>Accesso remoto a dispositivi di rete domestici</li>
+<li>Hosting di servizi da connessioni residenziali</li>
+<li>Monitoraggio remoto di impianti e sistemi</li>
+</ul>
+<h3 id="17-what-is-record-dns-a-or-aaaa-">17. What is record DNS A or AAAA?</h3>
+<p>I <strong>record DNS</strong> mappano nomi di dominio a indirizzi IP.</p>
+<p><strong>Record A</strong>:</p>
+<ul>
+<li>Mappa un dominio a un indirizzo IPv4</li>
+<li>Esempio: example.com → 192.0.2.1</li>
+<li>Sintassi: example.com. IN A 192.0.2.1</li>
+</ul>
+<p><strong>Record AAAA</strong>:</p>
+<ul>
+<li>Mappa un dominio a un indirizzo IPv6</li>
+<li>Esempio: example.com → 2001:db8::1</li>
+<li>Sintassi: example.com. IN AAAA 2001:db8::1</li>
+</ul>
+<p><strong>Altri record importanti</strong>:</p>
+<ul>
+<li>CNAME: Alias di un altro dominio</li>
+<li>MX: Mail exchange per le email</li>
+<li>TXT: Record testuali per verifiche e sicurezza</li>
+<li>NS: Name server autoritativi per il dominio</li>
+</ul>
+<h2 id="livello-6-implementazione-pratica-raspberry-pi-e-cloudflare-">Livello 6: Implementazione Pratica (Raspberry Pi e Cloudflare)</h2>
+<h3 id="18-how-to-setup-server-router-with-raspberry-">18. How to setup server/router with raspberry?</h3>
+<p><strong>Configurazione base Raspberry Pi</strong>:</p>
+<ol>
+<li>Installare Raspberry Pi OS Lite</li>
+<li>Configurare accesso SSH: <code>sudo systemctl enable ssh</code></li>
+<li>Aggiornare il sistema: <code>sudo apt update &amp;&amp; sudo apt upgrade</code></li>
+</ol>
+<p><strong>Come server web</strong>:</p>
+<pre><code class="lang-bash"><span class="hljs-meta"># Installare Nginx</span>
+sudo apt install nginx
+
+<span class="hljs-meta"># Abilitare e avviare il servizio</span>
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+<span class="hljs-meta"># Configurare firewall</span>
+sudo ufw allow <span class="hljs-number">80</span>/tcp
+sudo ufw allow <span class="hljs-number">443</span>/tcp
+</code></pre>
+<p><strong>Come router</strong>:</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># Abilitare IP forwarding</span>
+sudo sysctl -w net.ipv4.ip_forward=<span class="hljs-number">1</span>
+
+<span class="hljs-comment"># Configurare iptables per NAT</span>
+sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
+sudo iptables -A FORWARD -i eth0 -o eth1 -m <span class="hljs-keyword">state</span> --state RELATED,ESTABLISHED -j ACCEPT
+
+<span class="hljs-comment"># Salvare le regole iptables</span>
+sudo apt install iptables-persistent
+sudo netfilter-persistent save
+</code></pre>
+<h3 id="19-how-to-host-online-cloudflare-ddns-">19. How to host online cloudflare DDNS?</h3>
+<p><strong>Configurazione Cloudflare DDNS</strong>:</p>
+<ol>
+<li>Creare un account Cloudflare e aggiungere il dominio</li>
+<li>Ottenere API token con permessi di modifica DNS</li>
+<li>Script di aggiornamento automatico:</li>
+</ol>
+<pre><code class="lang-bash"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Configurazione</span>
+ZONE_ID=<span class="hljs-string">"your_zone_id"</span>
+RECORD_ID=<span class="hljs-string">"your_record_id"</span>
+API_TOKEN=<span class="hljs-string">"your_api_token"</span>
+DOMAIN=<span class="hljs-string">"yourdomain.com"</span>
+INTERFACE=<span class="hljs-string">"eth0"</span>
+
+<span class="hljs-comment"># Ottenere IP corrente</span>
+CURRENT_IP=$(ip addr show <span class="hljs-variable">$INTERFACE</span> | grep <span class="hljs-string">"inet "</span> | awk <span class="hljs-string">'{print $2}'</span> | cut <span class="hljs-_">-d</span>/ <span class="hljs-_">-f</span>1)
+
+<span class="hljs-comment"># Aggiornare record DNS via API</span>
+curl -X PUT <span class="hljs-string">"https://api.cloudflare.com/client/v4/zones/<span class="hljs-variable">$ZONE_ID</span>/dns_records/<span class="hljs-variable">$RECORD_ID</span>"</span> \
+     -H <span class="hljs-string">"Authorization: Bearer <span class="hljs-variable">$API_TOKEN</span>"</span> \
+     -H <span class="hljs-string">"Content-Type: application/json"</span> \
+     --data <span class="hljs-string">"{\"type\":\"A\",\"name\":\"<span class="hljs-variable">$DOMAIN</span>\",\"content\":\"<span class="hljs-variable">$CURRENT_IP</span>\",\"ttl\":1,\"proxied\":false}"</span>
+</code></pre>
+<ol>
+<li>Automatizzare con cron: <code>crontab -e</code>
+Aggiungere: <code>*/5 * * * * /path/to/script.sh</code></li>
+</ol>
+<h3 id="20-how-to-connect-publicly-to-home-raspberry-setup-with-ssh-l-80-localhost-80-user-server-domain-com-">20. How to connect publicly to home raspberry setup with ssh -L 80:localhost:80 user@server.domain.com?</h3>
+<p><strong>Tunneling SSH per accesso sicuro</strong>:</p>
+<p>Il comando: <code>ssh -L 80:localhost:80 user@server.domain.com</code>
+crea un tunnel che:</p>
+<ol>
+<li>Inoltra il traffico sulla porta 80 del client locale</li>
+<li>Lo invia attraverso una connessione SSH cifrata al server</li>
+<li>Il server lo reindirizza alla porta 80 del Raspberry Pi</li>
+</ol>
+<p><strong>Configurazione dettagliata</strong>:</p>
+<ol>
+<li>Sul Raspberry Pi: abilitare SSH e configurare accesso con chiave pubblica</li>
+<li>Sul server intermedio: configurare utente e autorizzazioni SSH</li>
+<li>Dal client esterno: eseguire il comando di tunneling</li>
+</ol>
+<p><strong>Variante con reverse tunneling</strong> (quando il Raspberry è behind NAT):</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># Sul Raspberry Pi</span>
+ssh -R <span class="hljs-number">8080</span><span class="hljs-symbol">:localhost</span><span class="hljs-symbol">:</span><span class="hljs-number">80</span> user<span class="hljs-variable">@server</span>.domain.com
+
+<span class="hljs-comment"># Dal client esterno</span>
+ssh -L <span class="hljs-number">80</span><span class="hljs-symbol">:localhost</span><span class="hljs-symbol">:</span><span class="hljs-number">8080</span> user<span class="hljs-variable">@server</span>.domain.com
+</code></pre>
+<p><strong>Considerazioni di sicurezza</strong>:</p>
+<ul>
+<li>Utilizzare sempre autenticazione a chiave pubblica</li>
+<li>Limitare gli accessi con firewall</li>
+<li>Considerare l&#39;uso di VPN per accesso più sicuro</li>
+<li>Monitorare gli accessi tramite log</li>
+</ul>
+<p>Questa guida completa fornisce una base solida per comprendere e implementare reti informatiche, dai concetti fondamentali alle applicazioni pratiche con Raspberry Pi e servizi cloud.</p>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calcola il tempo di lettura
+            function calculateReadingTime() {
+                const text = document.querySelector('.rendered-content').innerText;
+                const wordsPerMinute = 200;
+                const words = text.trim().split(/\s+/).length;
+                const readingTime = Math.ceil(words / wordsPerMinute);
+                document.getElementById('reading-time').textContent = `⏱ ${readingTime} min lettura`;
+            }
+
+            // Toggle tema
+            function toggleTheme() {
+                const root = document.documentElement;
+                const themeToggle = document.getElementById('theme-toggle');
+                const currentTheme = root.getAttribute('data-theme');
+                
+                if (currentTheme === 'light') {
+                    root.setAttribute('data-theme', 'dark');
+                    themeToggle.textContent = '🌙';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    root.setAttribute('data-theme', 'light');
+                    themeToggle.textContent = '☀️';
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            // Carica il tema salvato
+            function loadSavedTheme() {
+                const savedTheme = localStorage.getItem('theme');
+                const root = document.documentElement;
+                const themeToggle = document.getElementById('theme-toggle');
+                
+                if (savedTheme === 'light') {
+                    root.setAttribute('data-theme', 'light');
+                    themeToggle.textContent = '☀️';
+                } else {
+                    root.setAttribute('data-theme', 'dark');
+                    themeToggle.textContent = '🌙';
+                }
+            }
+
+            // Gestione mobile sidebar
+            function initMobileControls() {
+                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                const mobileOverlay = document.getElementById('mobile-overlay');
+                const sidebar = document.querySelector('.sidebar');
+                
+                function openMobileSidebar() {
+                    sidebar.classList.add('sidebar-open');
+                    mobileOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+                
+                function closeMobileSidebar() {
+                    sidebar.classList.remove('sidebar-open');
+                    mobileOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+                
+                // Eventi per aprire/chiudere la sidebar
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.addEventListener('click', openMobileSidebar);
+                }
+                
+                if (mobileOverlay) {
+                    mobileOverlay.addEventListener('click', closeMobileSidebar);
+                }
+                
+                // Chiudi sidebar quando si clicca su un link
+                const sidebarLinks = document.querySelectorAll('.sidebar-toc-link');
+                sidebarLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (window.innerWidth <= 768) {
+                            setTimeout(closeMobileSidebar, 300); // Delay per permettere la navigazione
+                        }
+                    });
+                });
+                
+                // Gestisci il ridimensionamento della finestra
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 768) {
+                        closeMobileSidebar();
+                    }
+                });
+            }
+
+            // Inizializza tutto
+            calculateReadingTime();
+            loadSavedTheme();
+            
+            // Event listeners
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            
+            // Estrai tutti gli heading h2 e h3 dal contenuto
+            const headings = document.querySelectorAll('.rendered-content h2, .rendered-content h3');
+            const tocContainer = document.getElementById('sidebar-toc');
+            
+            // Aggiungi ID a tutti gli heading se non ce l'hanno già
+            headings.forEach((heading, index) => {
+                if (!heading.id) {
+                    heading.id = 'heading-' + index;
+                }
+            });
+            
+            // Crea la tabella dei contenuti collassabile nella sidebar
+            let currentSection = null;
+            let currentSubsections = null;
+            let isNavigating = false; // Flag per distinguere scroll programmatico da scroll manuale
+            
+            headings.forEach(heading => {
+                if (heading.tagName.toLowerCase() === 'h2') {
+                    // Crea una nuova sezione per h2
+                    const section = document.createElement('div');
+                    section.className = 'sidebar-toc-section';
+                    
+                    const header = document.createElement('div');
+                    header.className = 'sidebar-toc-header';
+                    header.dataset.headingId = heading.id;
+                    header.dataset.expanded = 'false';
+                    header.dataset.lastClickTime = '0';
+                    
+                    const toggle = document.createElement('span');
+                    toggle.className = 'sidebar-toc-toggle';
+                    toggle.textContent = '▶';
+                    
+                    const title = document.createElement('span');
+                    title.className = 'sidebar-toc-title';
+                    title.textContent = heading.textContent;
+                    
+                    // Logica di click per il comportamento richiesto
+                    header.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        const now = Date.now();
+                        const lastClickTime = parseInt(this.dataset.lastClickTime);
+                        const isExpanded = this.dataset.expanded === 'true';
+                        const subsections = section.querySelector('.sidebar-toc-subsections');
+                        
+                        // Se è chiusa, aprila e naviga
+                        if (!isExpanded) {
+                            // Apri
+                            this.dataset.expanded = 'true';
+                            toggle.classList.add('expanded');
+                            subsections.classList.add('expanded');
+                            toggle.textContent = '▼';
+                            
+                            // Naviga al capitolo
+                            navigateToHeading(heading);
+                            
+                        } else {
+                            // È aperta - verifica se è un doppio click veloce (entro 500ms)
+                            if (now - lastClickTime < 500) {
+                                // Doppio click veloce - riapri e naviga
+                                navigateToHeading(heading);
+                            } else {
+                                // Primo click su sezione aperta - chiudi
+                                this.dataset.expanded = 'false';
+                                toggle.classList.remove('expanded');
+                                subsections.classList.remove('expanded');
+                                toggle.textContent = '▶';
+                            }
+                        }
+                        
+                        this.dataset.lastClickTime = now.toString();
+                    });
+                    
+                    header.appendChild(toggle);
+                    header.appendChild(title);
+                    section.appendChild(header);
+                    
+                    // Crea il contenitore per i sottotitoli
+                    const subsections = document.createElement('div');
+                    subsections.className = 'sidebar-toc-subsections';
+                    section.appendChild(subsections);
+                    
+                    tocContainer.appendChild(section);
+                    currentSection = section;
+                    currentSubsections = subsections;
+                    
+                } else if (heading.tagName.toLowerCase() === 'h3' && currentSubsections) {
+                    // Aggiungi h3 come sottosezione
+                    const subsection = document.createElement('div');
+                    subsection.className = 'sidebar-toc-subsection';
+                    
+                    const link = document.createElement('a');
+                    link.href = '#' + heading.id;
+                    link.textContent = heading.textContent;
+                    link.className = 'sidebar-toc-link h3';
+                    
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        navigateToHeading(heading);
+                    });
+                    
+                    subsection.appendChild(link);
+                    currentSubsections.appendChild(subsection);
+                }
+            });
+            
+            // Funzione helper per la navigazione
+            function navigateToHeading(heading) {
+                isNavigating = true; // Imposta il flag per disabilitare temporaneamente l'auto-expand
+                
+                // Rimuovi la classe active da tutti i link
+                document.querySelectorAll('.sidebar-toc-link, .sidebar-toc-title').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Aggiungi la classe active al link/titolo corrispondente
+                if (heading.tagName.toLowerCase() === 'h2') {
+                    const header = document.querySelector(`[data-heading-id="${heading.id}"]`);
+                    if (header) {
+                        const title = header.querySelector('.sidebar-toc-title');
+                        title.classList.add('active');
+                    }
+                } else {
+                    const activeLink = document.querySelector(`.sidebar-toc-link[href="#${heading.id}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                        
+                        // Solo per H3, assicurati che la sezione padre sia espansa
+                        const section = activeLink.closest('.sidebar-toc-section');
+                        if (section) {
+                            const header = section.querySelector('.sidebar-toc-header');
+                            const toggle = section.querySelector('.sidebar-toc-toggle');
+                            const subsections = section.querySelector('.sidebar-toc-subsections');
+                            
+                            if (header.dataset.expanded !== 'true') {
+                                header.dataset.expanded = 'true';
+                                toggle.classList.add('expanded');
+                                subsections.classList.add('expanded');
+                                toggle.textContent = '▼';
+                            }
+                        }
+                    }
+                }
+                
+                // Scrolla all'heading
+                heading.scrollIntoView({ behavior: 'smooth' });
+                
+                // Reimposta il flag dopo un po' di tempo (dopo che lo scroll è completato)
+                setTimeout(() => {
+                    isNavigating = false;
+                }, 1000);
+            }
+            
+            // Highlight della sezione attiva durante lo scrolling
+            function highlightActiveSection() {
+                // Non fare nulla se siamo in navigazione programmatica (click sulla sidebar)
+                if (isNavigating) {
+                    return;
+                }
+                
+                const scrollPosition = window.scrollY + 150; // Offset per anticipare l'evidenziazione
+                
+                let activeHeading = null;
+                let closestDistance = Infinity;
+                
+                // Trova l'heading più vicino alla parte superiore della viewport
+                headings.forEach(heading => {
+                    const headingTop = heading.offsetTop;
+                    const distance = Math.abs(scrollPosition - headingTop);
+                    
+                    // Se questo heading è più vicino al punto di scroll e è sopra o vicino alla viewport
+                    if (distance < closestDistance && headingTop <= scrollPosition + 200) {
+                        closestDistance = distance;
+                        activeHeading = heading;
+                    }
+                });
+                
+                // Se non abbiamo trovato nessun heading sopra la viewport, prendi il primo
+                if (!activeHeading && headings.length > 0) {
+                    activeHeading = headings[0];
+                }
+                
+                // Rimuovi la classe active da tutti i link e titoli
+                document.querySelectorAll('.sidebar-toc-link, .sidebar-toc-title').forEach(element => {
+                    element.classList.remove('active');
+                });
+                
+                // Aggiungi la classe active all'elemento corrispondente
+                if (activeHeading) {
+                    if (activeHeading.tagName.toLowerCase() === 'h2') {
+                        // Per h2, evidenzia il titolo principale
+                        const header = document.querySelector(`[data-heading-id="${activeHeading.id}"]`);
+                        if (header) {
+                            const title = header.querySelector('.sidebar-toc-title');
+                            title.classList.add('active');
+                        }
+                    } else if (activeHeading.tagName.toLowerCase() === 'h3') {
+                        // Per h3, evidenzia il link del sottotitolo ed espandi la sezione se necessario
+                        const activeLink = document.querySelector(`.sidebar-toc-link[href="#${activeHeading.id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                            
+                            // Espandi automaticamente la sezione padre se non è già espansa
+                            const section = activeLink.closest('.sidebar-toc-section');
+                            if (section) {
+                                const header = section.querySelector('.sidebar-toc-header');
+                                const toggle = section.querySelector('.sidebar-toc-toggle');
+                                const subsections = section.querySelector('.sidebar-toc-subsections');
+                                
+                                if (header.dataset.expanded !== 'true') {
+                                    header.dataset.expanded = 'true';
+                                    toggle.classList.add('expanded');
+                                    subsections.classList.add('expanded');
+                                    toggle.textContent = '▼';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Aggiungi l'event listener per lo scroll e resize
+            window.addEventListener('scroll', highlightActiveSection);
+            window.addEventListener('resize', highlightActiveSection);
+            
+            // Esegui una volta all'inizio per impostare lo stato iniziale
+            highlightActiveSection();
+            
+            // Converti gli elenchi con trattini in HTML formattato correttamente
+            const paragraphs = document.querySelectorAll('.rendered-content p');
+            paragraphs.forEach(p => {
+                const html = p.innerHTML;
+                
+                // Se il paragrafo contiene righe che iniziano con trattini
+                if (html.includes('\n            -')) {
+                    const lines = html.split('\n');
+                    const newContent = document.createElement('div');
+                    
+                    // Aggiungi la prima riga (titolo)
+                    const titleLine = document.createElement('p');
+                    titleLine.innerHTML = lines[0];
+                    newContent.appendChild(titleLine);
+                    
+                    // Crea una lista per i punti
+                    const list = document.createElement('ul');
+                    list.className = 'bullet-list';
+                    
+                    for (let i = 1; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        if (line.startsWith('-')) {
+                            const li = document.createElement('li');
+                            li.textContent = line.substring(1).trim();
+                            list.appendChild(li);
+                        }
+                    }
+                    
+                    newContent.appendChild(list);
+                    p.parentNode.replaceChild(newContent, p);
+                }
+                
+                // Se il paragrafo contiene righe che iniziano con numeri
+                if (html.includes('\n            1. ') || html.includes('\n            2. ') || html.includes('\n            3. ')) {
+                    const lines = html.split('\n');
+                    const newContent = document.createElement('div');
+                    
+                    // Aggiungi la prima parte (prima del numero)
+                    const firstPart = document.createElement('p');
+                    firstPart.innerHTML = lines[0];
+                    newContent.appendChild(firstPart);
+                    
+                    // Crea una lista numerata per i punti
+                    const list = document.createElement('ol');
+                    list.className = 'numbered-list';
+                    
+                    for (let i = 1; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        if (/^\d+\./.test(line)) {
+                            const li = document.createElement('li');
+                            li.textContent = line.replace(/^\d+\.\s*/, '');
+                            list.appendChild(li);
+                        }
+                    }
+                    
+                    newContent.appendChild(list);
+                    p.parentNode.replaceChild(newContent, p);
+                }
+            });
+            
+            // Inizializza controlli mobile dopo aver creato tutti gli elementi
+            initMobileControls();
+        });
+    </script>
+</body>
+</html>
