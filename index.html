@@ -631,7 +631,7 @@
         }
 
         .rendered-content table {
-            width: 100%;
+            width: auto;
             border-collapse: collapse;
             margin: 20px 0;
             border-radius: 8px;
@@ -973,8 +973,8 @@
 <li>Per IPv6: 128 bit, rappresentati in esadecimale (es. 2001:0db8:85a3::8a2e:0370:7334)</li>
 <li>Sono gerarchici, contenenti informazioni di rete e host</li>
 </ul>
-<h3 id="2-what-is-the-purpose-of-the-ip-addresses-">2. What is the purpose of the IP addresses?</h3>
-<p>Lo scopo principale degli indirizzi IP è consentire:</p>
+<h3 id="2-what-is-the-purpose-of-the-ip-addresses-">A cosa serve in indirizzo IP?</h3>
+<p>Lo scopo principale degli è consentire:</p>
 <ul>
 <li><strong>Comunicazione bidirezionale</strong> tra dispositivi</li>
 <li><strong>Identificazione univoca</strong> dei dispositivi in una rete</li>
@@ -1021,13 +1021,13 @@
 <h2 id="composizione-e-formati">Composizione e formati</h2>
 <h3 id="ipv4">IPv4</h3>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Magnifying_glass_icon_mgx2.svg/20px-Magnifying_glass_icon_mgx2.svg.png" alt="" class="math-inverted"> Lo stesso argomento in dettaglio: <strong><a href="https://it.wikipedia.org/wiki/IPv4" title="IPv4">IPv4</a></strong>.</p>
-<p><a href="https://it.wikipedia.org/wiki/File:Ipv4_address-it.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Ipv4_address-it.svg/500px-Ipv4_address-it.svg.png" alt="" class="diagram-inverted"></a></p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Ipv4_address-it.svg/500px-Ipv4_address-it.svg.png" alt="" class="diagram-inverted"></a></p>
 <p>Un esempio di indirizzo IPv4</p>
 <p>L&#39;indirizzo IPv4 (Internet Protocol versione 4) è costituito da 32 <a href="https://it.wikipedia.org/wiki/Bit" title="Bit">bit</a> (4 <a href="https://it.wikipedia.org/wiki/Byte" title="Byte">byte</a>) suddivisi in quattro gruppi da 8 bit (1 byte), separati ciascuno da un punto (notazione <em>dotted</em>, es. <code>11001001.00100100.10101111.00001111</code>). Ciascuno di questi quattro byte è poi convertito in formato <a href="https://it.wikipedia.org/wiki/Sistema_numerico_decimale" title="Sistema numerico decimale">decimale</a> di più facile identificazione, che semplifica la lettura e la memorizzazione da parte di noi umani, (quindi ogni numero varia tra 0 e 255 essendo <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e8ce4c9b006679322bda6c0c82fe41a2907e19a7" alt="{\displaystyle 2^{8}=256}" class="math-inverted"> , ovvero le combinazioni disponibili ci dicono quanti numeri possiamo utilizzare in ogni gruppo identificato dal punto). Un esempio di indirizzo IPv4 è <code>172.16.254.1</code>, che corrisponde a una <a href="https://it.wikipedia.org/wiki/Sistema_numerico_binario" title="Sistema numerico binario">notazione binaria</a>.</p>
 <p>Nello standard IPv4, essendo costituito da 32 bit, le combinazioni utilizzabili sono <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/a8c222ea8e5f187a2bb499395b6f4a6f38b43633" alt="{\displaystyle 2^{32}}" class="math-inverted"> , pari a circa 4 miliardi. All&#39;inizio, nel 1981, sembravano tanti, tuttavia oggi sono pochi poiché se ognuno di noi ha diversi dispositivi connessi a internet, questi avranno degli indirizzi IP univoci. Basti pensare che molte persone posseggono uno smartphone, un computer e una <a href="https://it.wikipedia.org/wiki/Smart_TV" title="Smart TV">smart TV</a>, quindi tre indirizzi IP. Sono quindi state identificate delle soluzioni, per esempio separare degli &quot;indirizzi privati&quot; assegnati nelle <a href="https://it.wikipedia.org/wiki/LAN" title="LAN">LAN</a>, al cui interno sono identificati univocamente, ma il router ha un indirizzo pubblico, i rimanenti non sono visti dall&#39;esterno. Questa soluzione è generalmente utilizzata dalle imprese. L&#39;altra soluzione è passare a un nuovo standard: IPv6.</p>
 <h3 id="ipv6">IPv6</h3>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Magnifying_glass_icon_mgx2.svg/20px-Magnifying_glass_icon_mgx2.svg.png" alt="" class="math-inverted"> Lo stesso argomento in dettaglio: <strong><a href="https://it.wikipedia.org/wiki/IPv6" title="IPv6">IPv6</a></strong>.</p>
-<p><a href="https://it.wikipedia.org/wiki/File:Ipv6_address-it.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Ipv6_address-it.svg/500px-Ipv6_address-it.svg.png" alt="" class="diagram-inverted"></a></p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Ipv6_address-it.svg/500px-Ipv6_address-it.svg.png" alt="" class="diagram-inverted"></a></p>
 <p>Un esempio di indirizzo IPv6</p>
 <p>L&#39;indirizzo IPv6 (Internet Protocol versione 6) è costituito da 128 bit (16 byte), viene descritto da 8 gruppi di 4 cifre <a href="https://it.wikipedia.org/wiki/Sistema_numerico_esadecimale" title="Sistema numerico esadecimale">esadecimali</a> che rappresentano 2 byte ciascuno (quindi ogni numero varia tra 0 e 65535) separati dal simbolo &quot;<a href="https://it.wikipedia.org/wiki/Due_punti" title="Due punti">due punti</a>&quot;. Un esempio di indirizzo IPv6 è <code>2001:0DB8:0000:0000:0000:0000:0000:0001</code>, che può essere abbreviato in <code>2001:DB8::1</code> (i due punti doppi rappresentano la parte dell&#39;indirizzo che è composta di soli zeri consecutivi. Si può usare una sola volta, per cui se un indirizzo ha due parti composte di zeri la più breve andrà scritta per esteso).</p>
 <p>I dispositivi connessi a una rete IPv6 ottengono un indirizzo di tipo unicast globale, vale a dire che i primi 48 bit del suo indirizzo sono assegnati alla rete a cui esso si connette, mentre i successivi 16 bit identificano le varie sottoreti a cui l&#39;host è connesso. Gli ultimi 64 bit sono ottenuti dall&#39;<a href="https://it.wikipedia.org/wiki/Indirizzo_MAC" title="Indirizzo MAC">indirizzo MAC</a> dell&#39;interfaccia fisica.</p>
