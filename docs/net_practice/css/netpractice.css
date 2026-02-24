@@ -1,0 +1,374 @@
+
+/* net Practice CSS - Obsidian Dark Theme */
+/* Warning : some parameters are set / modified by script */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-primary: #171b2b;
+    --bg-secondary: #1d2131;
+    --bg-tertiary: #2C303F;
+    --text-primary: #CDD0E2;
+    --text-secondary: #A9ADCE;
+    --text-accent: #5081BF;
+    --text-highlight: #a1f800;
+    --accent-orange: #E95420;
+    --border-color: #434343;
+    --hover-bg: rgba(41, 42, 54, 0.6);
+    --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-heavy: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    padding:0px;
+    margin:0px;
+	background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+
+.fade-in {
+    opacity: 0;
+    animation: fadeInUp .6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+/* message box in index.html */
+
+.intro_div {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding:20px;
+    width:30%;
+    margin:auto;
+    margin-top: 15%;
+    color: var(--text-primary);
+    box-shadow: var(--shadow-heavy);
+
+}
+
+.intro_div img {
+	width: 25%;
+}
+
+.intro_div .tabs {
+	margin-top: 20px;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	align-items: center;
+	border-bottom: 1px solid var(--border-color);
+	margin-bottom: 2em;
+	gap: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.intro_div .tabs div {
+	flex: 1;
+	text-align: center;
+	padding: 10px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+    box-shadow: var(--shadow-light);
+	border: 1px solid var(--border-color);
+	cursor: pointer;
+	background-color: var(--bg-tertiary);
+	color: var(--text-secondary);
+	transition: all 0.3s ease;
+}
+
+
+.tab {
+	display: none;
+	align-items: center;
+	flex-direction: column;
+	text-align: center;
+}
+
+
+	
+.intro_div input {
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+    border: 2px solid var(--border-color);
+	box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.intro_div input:hover {
+	box-shadow: var(--shadow-heavy);
+	transform: translate(-2px, -2px);
+	border-color: var(--text-accent);
+}
+
+.intro_div input[type="button"] {
+	cursor: pointer;
+	background-color: var(--text-highlight);
+	color: var(--bg-primary);
+	font-weight: 600;
+}
+
+.intro_div input[type="button"]:hover {
+	background-color: #b4ff33;
+}
+
+/* goals div */
+.goals_div {
+	margin: 5px;
+    background-color: var(--bg-secondary);
+    width:calc(100% - 10px);
+    border:1px solid var(--border-color);
+    border-radius:5px;
+    padding: 5px;
+	box-shadow: var(--shadow-light);
+	color: var(--text-primary);
+}
+
+.goals_div h2 {
+    margin:5px;
+    font-style:italic;
+    color: var(--text-highlight);
+}
+
+.goals_div input {
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+    border: 1px solid var(--border-color);
+	box-shadow: var(--shadow-light);
+	transition: all 0.3s ease;
+	background-color: var(--text-highlight);
+	color: var(--bg-primary);
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.goals_div input:hover {
+	box-shadow: var(--shadow-heavy);
+	transform: translate(-2px, -2px);
+	background-color: #b4ff33;
+}
+
+
+
+/* SVG layer */
+.svg_layer {
+    z-index:-4;
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+
+
+/* logs window */
+.logs_div {
+    background-color: var(--bg-tertiary);
+    border:1px solid var(--border-color);
+    border-top-left-radius:3px;
+    border-bottom-left-radius:3px;
+    border-bottom-right-radius:3px;
+    position:fixed;
+    bottom:0px;
+    right:0px;
+    width:250px;
+    height:200px;
+    font-size:70%;
+	margin: 4px;
+	box-shadow: var(--shadow-heavy);
+	color: var(--text-primary);
+}
+
+.logs_button {
+    background-color: var(--bg-tertiary);
+    position:absolute;
+	top:-20px;
+	width: 20px;
+	height: 20px;
+	right: 0px;
+	box-shadow: var(--shadow-light);
+    border:1px solid var(--border-color);
+	border-bottom: 0px solid var(--border-color);
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	color: var(--text-primary);
+	transition: background-color 0.3s ease;
+}
+
+.logs_button:hover {
+	background-color: var(--hover-bg);
+}
+
+.logs_inner {
+	width: 100%;
+	height: 100%;
+    overflow-y: scroll;
+    position:absolute;
+	top: 0px;
+	left: 0px;
+	padding: 3px;
+}
+
+/* host div (image) */
+.host_div {
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* will be updated by script : position, top, left, width, height, background-image */
+}
+
+
+/* host info (name, route) div */
+.host_info_div {
+    min-width: 170px;
+    min-height: 50px;
+    background-color: rgba(161, 248, 0, 0.15);
+    border: 1px solid var(--text-highlight);
+    border-radius: 3px;	
+	box-shadow: var(--shadow-light);
+	padding: 1px;
+	color: var(--text-primary);
+    /* will be updated by script : position, top, left */
+}
+
+.host_info_div table {
+	width: 100%;
+}
+.host_info_div table td {
+	text-align:center;
+}
+
+
+.if_tab {
+    border-collapse: collapse;
+}
+
+/* interface div */
+.itf_div {
+    min-width: 176px;
+    height: 70px;
+    background-color: rgba(80, 129, 191, 0.15);
+	border: 1px solid var(--text-accent);
+    border-radius: 3px;
+	box-shadow: var(--shadow-light);
+	padding: 1px;
+	color: var(--text-primary);
+    /* will be updated by script : position, top, left */
+}
+
+.itf_div table {
+	width:100%;
+}
+.itf_div table td {
+	text-align:center;
+}
+
+/* intro footnote */
+.footnote {
+    font-size:70%;
+    font-style:italic;
+    color: var(--text-secondary);
+}
+
+/* Additional dark theme styles */
+input[type="text"] {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+input[type="text"]::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--text-accent);
+    box-shadow: 0 0 0 2px rgba(80, 129, 191, 0.3);
+}
+
+table {
+    color: var(--text-primary);
+}
+
+h2 {
+    color: var(--text-primary);
+}
+
+/* Input fields in network diagrams */
+.host_info_div input,
+.itf_div input {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 4px;
+    border-radius: 3px;
+    font-family: 'Inter', monospace;
+    transition: all 0.2s ease;
+}
+
+.host_info_div input:focus,
+.itf_div input:focus {
+    outline: none;
+    border-color: var(--text-highlight);
+    box-shadow: 0 0 0 2px rgba(161, 248, 0, 0.2);
+}
+
+.host_info_div input:disabled,
+.itf_div input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Center alignment improvements */
+center {
+    color: var(--text-primary);
+}
+
+/* Add smooth scrollbar for dark theme */
+.logs_inner::-webkit-scrollbar {
+    width: 8px;
+}
+
+.logs_inner::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+    border-radius: 4px;
+}
+
+.logs_inner::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.logs_inner::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}

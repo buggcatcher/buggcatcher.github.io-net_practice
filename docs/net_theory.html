@@ -951,9 +951,125 @@
                 justify-content: center;
             }
         }
+
+        /* Modal Popup Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--text-accent);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-heavy);
+            animation: slideDown 0.4s ease;
+            text-align: center;
+        }
+
+        .modal-content h3 {
+            color: var(--text-highlight);
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .modal-content p {
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .modal-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .modal-button.primary {
+            background-color: var(--text-highlight);
+            color: var(--bg-primary);
+        }
+
+        .modal-button.primary:hover {
+            background-color: #b4ff33;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(161, 248, 0, 0.3);
+        }
+
+        .modal-button.secondary {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-button.secondary:hover {
+            background-color: var(--hover-bg);
+            border-color: var(--text-accent);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Modal Popup per versione inglese -->
+    <div class="modal-overlay" id="languageModal">
+        <div class="modal-content">
+            <h3>🌐 English Version Available</h3>
+            <p>
+                An in-depth English version of the network theory is available on InfoCorner,
+                with more detailed explanations and advanced concepts.
+                <br><br>
+                Would you like to be redirected to the English version?
+            </p>
+            <div class="modal-buttons">
+                <button class="modal-button primary" onclick="redirectToEnglish()">Yes, go to English version</button>
+                <button class="modal-button secondary" onclick="closeModal()">No, stay here</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Pulsante menu mobile -->
     <button class="mobile-menu-btn" id="mobile-menu-btn" title="Apri menu">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -970,7 +1086,7 @@
 
     <div class="sidebar">
         <div class="sidebar-header">
-            <h2>Network Fundamentals</h2>
+            <h2><a href="index.html" style="color: inherit; text-decoration: none; cursor: pointer;">Network Fundamentals</a></h2>
             <div class="sidebar-controls">
                 <span class="reading-time" id="reading-time">⏱ 0 min lettura</span>
                 <button class="theme-toggle" id="theme-toggle" title="Cambia tema">🌙</button>
@@ -1841,6 +1957,38 @@ ssh -L <span class="hljs-number">80</span><span class="hljs-symbol">:localhost</
             
             // Inizializza controlli mobile dopo aver creato tutti gli elementi
             initMobileControls();
+        });
+
+        // Modal Popup Functions
+        function showModal() {
+            const modal = document.getElementById('languageModal');
+            modal.classList.add('show');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('languageModal');
+            modal.classList.remove('show');
+            // Salva preferenza per non mostrare più il popup in questa sessione
+            sessionStorage.setItem('languageModalShown', 'true');
+        }
+
+        function redirectToEnglish() {
+            window.location.href = 'https://infocorner.neocities.org/good_readings#networks';
+        }
+
+        // Mostra il modal all'apertura della pagina (solo una volta per sessione)
+        window.addEventListener('load', function() {
+            if (!sessionStorage.getItem('languageModalShown')) {
+                setTimeout(showModal, 500); // Mostra dopo 500ms per dare tempo alla pagina di caricarsi
+            }
+        });
+
+        // Chiudi modal cliccando fuori dal contenuto
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('languageModal');
+            if (e.target === modal) {
+                closeModal();
+            }
         });
     </script>
 </body>
