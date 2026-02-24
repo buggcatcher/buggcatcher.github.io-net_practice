@@ -68,7 +68,29 @@ body {
 }
 
 .intro_div img {
-	width: 25%;
+	width: 30%;
+}
+
+@media (max-width: 768px) {
+    .intro_div {
+        width: 92vw;
+        min-height: 90vh;
+        margin-top: 4vh;
+        padding: 8px;
+    }
+
+    .intro_div img {
+        width: 40%;
+    }
+
+    .intro_div .tabs {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .intro_div .tabs div {
+        width: 100%;
+    }
 }
 
 .intro_div .tabs {
@@ -95,6 +117,7 @@ body {
 	cursor: pointer;
 	background-color: var(--bg-tertiary);
 	color: var(--text-secondary);
+    white-space: nowrap;
 	transition: all 0.3s ease;
 }
 
